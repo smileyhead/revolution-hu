@@ -1,0 +1,1341 @@
+#BMG  <<<  The first 4 characters '#BMG' are the magic for a BMG text file.
+#     <<<  Don't remove them!
+#
+# Details about BMG text files are available in the Web:
+#  * Syntax and Semantics: https://szs.wiimm.de/doc/bmg/text
+#  * The BMG file format:  https://szs.wiimm.de/r/wiki/BMG
+#
+#
+#------------------------------------------------------------------------------
+# All parameters begin with '@'. Unknown parameters are ignored on scanning.
+
+# The endianness of binary files: 0=big endian (default), 1=little endian.
+# Little endian is only tested for encoding UTF-8 (need examples of analysis).
+@ENDIAN = 0
+
+# If 1, then enable legacy (GameCube) mode for old binary BMG files.
+# If enabled, ENCODING is always CP1252.
+@LEGACY = 0
+
+# Define encoding of BMG: 1=CP1252, 2=UTF-16/be, 3=Shift-JIS, 4=UTF-8
+@ENCODING = 2
+
+# Create »MID1« section: 0=off, 1=on
+@BMG-MID = 1
+
+# Size of each element of section 'INF1' (MKW=8).
+# This setting has impact to attributes and MKW features.
+@INF-SIZE = 0x08
+
+# Default attribute values for this BMG (MKW=[1])
+@DEFAULT-ATTRIBS = [,64]
+
+# Use MKW specific color names: 0=off, 1=auto, 2=on
+@COLOR-NAMES = 1
+
+# Use MKW messages and track names: 0=off, 1=auto, 2=on
+@MKW-MESSAGES = 1
+
+#
+#------------------------------------------------------------------------------
+
+# This part defines values for unknown parameters of section headers.
+@UNKNOWN-INF32-0C =          0	# 32 bit value of section INF1 offset 0x0c
+@UNKNOWN-MID16-0A =      0xa01	# 16 bit value of section MID1 offset 0x0a
+@UNKNOWN-MID32-0C =          0	# 32 bit value of section MID1 offset 0x0c
+
+#
+#------------------------------------------------------------------------------
+
+     0	= Wii Room
+ 3e800	= Igen
+ 3f200	= Nem
+ 3fc00	= OK
+ 3fc01	= Kilépés
+ 40600	= Wii menü
+ 40601	= Mii Csat.
+ 41000	= Vissza
+ 41a00	= Újra
+ 42400	= Fogadás
+ 42e00	= OK
+ 43800	= Elfogadás
+ 44200	= Elutasítás
+ 44c00	= Wii menü
+ 45600	= Frissítés
+ 7d000	= Vissza
+ 7da00	= Vissza a szobába
+ 7e400	= Vissza a moziba
+ 7e401	= Továbbiak
+ 7f800	= Új Wii Roomos adatok\n
+	+ érkeztek!\n
+	+ \n
+	+ Adatok betöltése.
+ 80202	= Vissza
+ 80204	= OK
+ 80205	= Bevitel
+ 80206	= Megvásárlás
+ 80207	= Vásárlások
+ 80208	= Kölcsönzés
+ 80209	= Kölcsönzés
+ 9c500	= 0
+ 9c600	= 1
+ 9c700	= 2
+ 9c800	= 3
+ 9c900	= 4
+ 9ca00	= 5
+ 9cb00	= 6
+ 9cc00	= 7
+ 9cd00	= 8
+ 9ce00	= 9
+ bb800	= jan.\040
+ bb801	= január\040
+ bc200	= febr.\040
+ bc201	= február\040
+ bcc00	= márc.\040
+ bcc01	= március\040
+ bd600	= ápr.\040
+ bd601	= április\040
+ be000	= máj.\040
+ be001	= május\040
+ bea00	= jún.\040
+ bea01	= június\040
+ bf400	= júl.\040
+ bf401	= július\040
+ bfe00	= aug.\040
+ bfe01	= augusztus\040
+ c0800	= szept.\040
+ c0801	= szeptember\040
+ c1200	= okt.\040
+ c1201	= október\040
+ c1c00	= nov.\040
+ c1c01	= november\040
+ c2600	= dec.\040
+ c2601	= december\040
+ c8000	= H
+ c8a00	= K
+ c9400	= Sze
+ c9e00	= Cs
+ ca800	= P
+ cb200	= Szo
+ cbc00	= V
+ cc600	= \040.
+ ce400	= 
+ cee00	= \040.
+ cef00	= :
+ cef01	= :
+ cf000	= :
+ cf100	= \040
+ cf800	= /
+ d0200	= :
+138900	= [
+138a00	= ]
+138b00	=  blokk
+139200	= --
+139c00	= Össz.:\040
+177000	= Hírek
+186e600	= A Wii Room jelenleg\n
+	+ karbantartás alatt áll.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+1870400	= A Wii Room frissítve lett.\n
+	+ Töltsd le a legújabb\n
+	+ kiadást a Wii Áruház\n
+	+ Csatornáról!\n
+	+ \n
+	+ Hibakód:\040
+1870e00	= A Wii Room-szolgáltatás\n
+	+ megszűnt. Köszönjük a\n
+	+ részvételt!\n
+	+ \n
+	+ Hibakód:\040
+1871800	= Kiszolgálóhiba.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+1872200	= A cím nincs beállítva.\n
+	+ Szeretnéd most\n
+	+ beállítani?
+1872300	= Szeretnéd megadni a címed?
+1872c00	= Szeretnél visszalépni a\n
+	+ régióbeállításokhoz?
+18a9c00 [,45] = A Wii Room mentése\n
+	+ sérült.\n
+	+ \n
+	+ Új mentés létrehozása.
+18aa600 [,45] = Nincs elég szabad hely\n
+	+ a Wii belső tárhelyén.\n
+	+ \n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+18aa601 [,45] = Szabadíts fel több blokkot!
+18ab000 [,45] = Nincs elég szabad hely\n
+	+ a Wii belső tárhelyén.\n
+	+ \n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+18aba00 [,45] = A Mii-adatok betöltése meghiúsult.\n
+	+ \n
+	+ Nyisd meg a Mii Csatornát és\n
+	+ ellenőrizd az adatok épségét!
+18e7000 [,45] = A Wii-címadatok\n
+	+ PIN-kóddal védettek.\n
+	+ Add meg a 4-számjegyű PIN-kódot!
+18e7002	= Elfelejtettem a PIN-kódom
+18e7003 [,45] = Ha elfelejtetted a PIN-kódod,\n
+	+ akkor törölnöd kell és\n
+	+ újra meg kell adnod a\n
+	+ címadatokat.\n
+	+ Rendben?
+18e7a00	= PIN-kód megadása
+18e8400 [,45] = Korlátozás átmenetileg feloldva.
+18e8e00 [,45] = A PIN-kód helytelen.
+18e8e01 [,45] = A PIN-kód helytelen. Ha\n
+	+ elfelejtetted, újra\n
+	+ meg kell adnod a\n
+	+ címadatokat.
+18e8e02	= Címbeállítások
+18e8e03 [,45] = Ugrás a\n
+	+ Wii-címbeállításokhoz.
+18e9800	= ＊
+18eac00 [,45] = Ezt a műveletet a\n
+	+ szülői felügyelet\n
+	+ korlátozza.
+18eb600 [,45] = Korlátozás átmenetileg feloldva.
+18eb601 [,45] = Vissza szeretnél\n
+	+ lépni?
+18eb602 [,45] = A PIN-kód helytelen.\n
+	+ \n
+	+ Ellenőrizd a megadott\n
+	+ kódot, majd próbáld\n
+	+ újra!
+18ed500 [,45] = Cím
+18ed600 [,45] = Telefonszám
+18ed700 [,45] = Email-cím
+18ed800 [,45] = (
+18ed900 [,45] = (
+18eda00 [,45] = \040
+18edb00 [,45] = )
+18edc00 [,45] = ：
+30d4000	= Isten hozott a Wii Roomban!\n
+	+ \n
+	+ A Wii Room egy olyan szolgáltatás,\n
+	+ ami lehetővé teszi a videónézést a\n
+	+ TV-den és az üzenetküldést a\n
+	+ barátaid számára.
+30d4001	= A Wii Room használata előtt\n
+	+ el kell olvasnod a\n
+	+ felhasználói feltételeket.
+30d4a00	= Most regisztráld a családod!\n
+	+ \n
+	+ A Wii Roomot a családtagok és\n
+	+ barátok is igénybe vehetik,\n
+	+ akiket tagokként vehetsz fel.
+30d5400	= Szeretnél felvenni\n
+	+ még egy tagot?\n
+	+ \n
+	+ A családod legfeljebb\n
+	+ nyolc Miit tartalmazhat.
+30d5e00	= Család létrehozva.\n
+	+ Ezt bármikor megváltoztathatod.\n
+	+ \n
+	+ Most válaszd ki a használandó\n
+	+ videóminőséget!
+30d6800 [,45] = Először is add meg\n
+	+ a régióbeállításokat!
+30d7200 [,45] = Ezzel véget ért a Wii Room\n
+	+ beállítása.\n
+	+ \n
+	+ Jó szórakozást kívánunk!
+30d8600 [,45] = Szeretnél visszatérni a\n
+	+ Wii menübe?
+30d9000 [,45] = Nem található Mii.\n
+	+ \n
+	+ Hozz létre legalább egy Miit a\n
+	+ Mii Csatornán!
+30d9a00	= Mutass a Wii Remote-tal a szobára!\n
+	+ Nyisd meg a menüt és próbáld ki a\n
+	+ lehetőségeket az \x{e042} gombbal!
+30d9a01	= A képernyőn megjelenő képekkel az\n
+	+ \x{e042} gombbal léphetsz kapcsolatba.
+30d9a02	= A moziban filmeket kölcsönözhetsz,\n
+	+ míg a szobákban különböző\n
+	+ szolgáltatásokat vehetsz igénybe.
+30d9a03	= A Wii Room áruházban különböző\n
+	+ tárgyakat vehetsz meg egyenesen\n
+	+ a TV-dről.
+30d9a04	= Az Egyebek-menü alatt további\n
+	+ lehetőségeket találsz, pl. az\n
+	+ üzenetküldő funkciót.
+30d9a05	= A moziban filmeket\n
+	+ kölcsönözhetsz vagy\n
+	+ vehetsz meg.
+30d9a06	= A moziban filmeket\n
+	+ kölcsönözhetsz vagy\n
+	+ vehetsz meg.
+30db801	= A moziban filmeket\n
+	+ kölcsönözhetsz vagy\n
+	+ vehetsz meg.
+30db802	= A vásárlás Wii-pontokkal\n
+	+ történik. Ezeket a Wii\n
+	+ Áruházcsatornán veheted meg.
+30db803	= Mutass rá a TV-re vagy egy\n
+	+ poszterre és nyomd meg az \x{e042}\n
+	+ gombot a tartalom megtekintéséhez!
+30db804	= A Felfedezés-menü alatt\n
+	+ megtekintheted a jelenleg\n
+	+ elérhető tartalmakat.
+30db805	= A már megvásárolt tartalmakat\n
+	+ a Vásárlások-menüpont alatt\n
+	+ tekintheted meg.
+30db806	= Ne feledd, hogy a megvásárolt\n
+	+ tartalmakat csak itt, a\n
+	+ moziban tekintheted meg!
+30f3400 [,45] = Frissültek a feltételek.\n
+	+ Kérjük, ismerd meg őket!
+30f3401 [,45] = Egy vagy több regisztrált\n
+	+ Mii törölve lett.
+30f3402 [,45] = Minden regisztrált Mii\n
+	+ törölve lett. Kérjük,\n
+	+ regisztráld újra a családod!
+3112800	= Wii menü
+3114600	= Szobák
+3116400	= Poszter
+3118c00 [,45] = Szeretnél visszatérni\n
+	+ a Wii menübe?
+3119600	= Valaki kopog.
+3119601	= Kicsöng...
+3119602	= Üzeneted érkezett!
+3119603	= Senki sem vette fel...
+3119b01	= A vendég meghívása meghiúsult.\n
+	+ Lehetséges, hogy már\n
+	+ nem elérhető.\n
+	+ \n
+	+ Hibakód:\040
+311a000	= Elfoglalt
+311aa00	= Jó étvágyat!
+311b400	= Ma van
+311b401	=  születésnapja!
+311e600	= Profil
+311f000	= Név
+311fa00	= Nem
+3120400	= Életkor
+3120500	= Szül. dátum
+3120e00	= Szül. dátum
+3121800	= Vértípus
+3121801	= ？？？
+3121802	= Feladó
+3121a00	= Férfi
+3122c00	= Férfi
+3122c01	= Nő
+3125401	= Megtekintés
+3125402	= Kihagyás
+312b800	= Legutóbbi látogatók
+312b801	= Baráti üzenetek
+312b802	= Családi üzenetek
+312b803	= Üzenőfal
+312b805 [,45] = Üzenet zárolva.\n
+	+ Még\040
+312b806 [,45] =  üzenetet zárolhatsz.
+312b807 [,45] = Zároltál 50 üzenetet és\n
+	+ ezzel elérted a felső korlátot.
+312b808 [,45] = Zároltál 50 üzenetet és\n
+	+ ezzel elérted a felső korlátot.
+312b809	= Új
+312b80c	= Új
+312ea01	= Zárolás
+312eb01	= Zárolás feloldása
+3131c00	= Ez a videó jelenleg\n
+	+ nem elérhető.\n
+	+ \n
+	+ Hibakód:\040
+3134f00	= Áruház
+3135000	= Áruház
+3135100	= Vásárlások
+3135200	= Vásárlások
+3135300	= Szobák
+3135400	= Videók
+313e501	= Poszter \x{e042}!
+3144802	= Szeretnéd megnézni a\n
+	+ következő vendéget?
+314ad00	= Melyik vendéget szeretnéd behívni?
+3151000	= Bezárás
+3151a00	= Szün.
+3151a01	= Leját.
+3152400	= Görgetés
+3153800	= Előret.
+3153801	= Előretekerés
+3153901	= Előretekerés
+3153a01	= Előretekerés
+3154200	= Visszat.
+3154201	= Visszatekerés
+3154301	= Visszatekerés
+3154401	= Visszatekerés
+3170501	= Gombok
+3170601	= Lejátszás
+3170602	= Szünet
+318f800	= Videó értékelése
+318f801	= Értékelj a Miid elhelyezésével!
+3192000	= Az értékelés regisztráció\n
+	+ nélkül is lehetséges.\n
+	+ \n
+	+ Legfeljebb 10 értékelést\n
+	+ tehetsz közzé.
+31aec00	= Megszakadt a kapcsolat a\n
+	+ Wii Remote-tal.
+31cea00	= Ajánlás
+31cf400	= Küldés DSi-re
+31cfe00	= Kedvenc
+31d0800	= Szoba
+31d0803	= Műsorok
+31d0806	= Szobák
+31d0807	= Mozi
+31d0808	= Vásárlás
+31d0809	= Szoba
+31d080a	= Szobalista
+31d1201	= Újrajátszás
+31d1c01	= Kapcsolódó
+31d1d01	= Kapcsolódó
+31d4400	= A kedvencek listája megtelt.\n
+	+ \n
+	+ Ha ezt ráteszed, egy\n
+	+ régebbi elem törölve lesz.\n
+	+ Rendben?
+31d4e01	= Stáblista
+31da800	= Kedvencnek jelölve.
+31dbc00	= Ez a videó jelenleg nem elérhető.\n
+	+ \n
+	+ Hibakód:\040
+31dbc01	= Lejátszási hiba történt.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+31dbc02	= Ez a tartalom lejárt, ezért\n
+	+ nem küldhető a Wii Room Anywhere-re.\n
+	+ \n
+	+ Hibakód:\040
+31dbc03	= Hiba történt a\n
+	+ Wii Room Anywhere-re küldés\n
+	+ közben.\n
+	+ \n
+	+ Hibakód:\040
+31ed500	= Lejátszás
+31ed600	= Előnézet
+31ed800	= Küldés DSi-re
+31ed901	= DSi-re\n
+	+ küldhető\n
+	+ tartalom
+31ed902	= Nem\n
+	+ küldhető\n
+	+ DSi-re
+31f3800	= Bezárás
+320c800	= Kölcsönzési időszak
+320c801	=  pont
+320c802	= Pontegyenleg
+320c803	= Pontköltség
+320c804	= Hátralévő pontok
+320c806	= nap
+320c807	= Hiányzó Wii pontok
+320c80a	= Tranzakcióinformáció
+320c80b	= Információ
+320c80d	= Információ
+320c814	= Megvásárolva
+320c815	= Wii Áruházcsatorna\n
+	+ -súgó
+320c816	= Wii Áruházcsatorna
+320c817	= Kikölcsönözve
+320cd00	= Továbbítunk a\n
+	+ Wii Áruházcsatornára.\n
+	+ \n
+	+ Miután megvásároltad a szükséges\n
+	+ Wii-pontmennyiséget, zárd be a\n
+	+ Wii Áruházcsatornát és nyisd meg\n
+	+ újra a Wii Roomot a Wii menüből!
+320ce00	= Most bezárjuk a Wii Roomot és\n
+	+ átirányítunk a Wii Áruházcsatornára.\n
+	+ \n
+	+ Ez eltarthat egy darabig.\n
+	+ Rendben?
+320d200	= Kölcsönzési időszak
+320d300	= Hátralévő idő
+320d301	= Határidő:
+320d400	= Korlátlan
+3345100	= Ez a videó lejárt,\n
+	+ ezért már nem lehet\n
+	+ kikölcsönözni.
+3345200	= Lejárt a kölcsönzési időszak.\n
+	+ \n
+	+ A videó újbóli megtekintéséhez\n
+	+ ismét ki kell kölcsönöznöd.
+3345300	= Lejárt a kölcsönzési időszak.\n
+	+ \n
+	+ Ezt a videót sajnos már\n
+	+ nem lehet kikölcsönözni.
+3345400	= Lejárt a kölcsönzési időszak.\n
+	+ \n
+	+ A videó folytatásához\n
+	+ ismét ki kell kölcsönöznöd.
+3d09201 [,45] = A vásárlás véglegesítésével\n
+	+ levonjuk a költséget a Wii\n
+	+ Áruházcsatorna pontegyenlegéből.\n
+	+ A pontok nem visszaszolgáltathatók.\n
+	+ Szeretnéd véglegesíteni a vásárlást?
+3d09202 [,45] = A vásárlás véglegesítésével\n
+	+ levonjuk a költséget a Wii\n
+	+ Áruházcsatorna pontegyenlegéből.\n
+	+ A pontok nem visszaszolgáltathatók.\n
+	+ Szeretnéd véglegesíteni a kölcsönzést?
+3d09203 [,45] = Ez a tétel ingyenes, ezért\n
+	+ a vásárlás nem terheli a\n
+	+ Wii Áruházcsatorna pontegyenlegét.\n
+	+ Szeretnéd véglegesíteni a vásárlást?
+3d09204 [,45] = Ez a tétel ingyenes, ezért\n
+	+ a vásárlás nem terheli a\n
+	+ Wii Áruházcsatorna pontegyenlegét.\n
+	+ Szeretnéd véglegesíteni a kölcsönzést?
+3d09300	= Szeretnéd bezárni a\n
+	+ Wii Roomot és elindítani a \n
+	+ Wii Áruházcsatornát?
+3d09400	= A Wii-pontegyenleged nem\n
+	+ egyenlíti ki a költséget.\n
+	+ Zárd be a Wii Roomot és\n
+	+ vásárolj pontokat a\n
+	+ Wii Áruházcsatornán!
+3d09501 [,55] = Nincs elég szabad hely.\n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+3d09502	= Szabadíts fel több blokkot!
+3d09600 [,55] = Nincs elég szabad hely.\n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+3d09700	= A szülői felügyeleti beállítások\n
+	+ tiltják a Wii pontok használatát.\n
+	+ A feloldáshoz add meg a\n
+	+ PIN-kódot!
+3d09b00	= Nincs elég szabad hely.\n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+3d09c00	= Nincs elég szabad hely.\n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+3d09d01	= ● Egy videó megvásárlásával\n
+	+ 　korlátlan ideig nézheted azt, míg\n
+	+ 　a kölcsönzésnek határideje van.\n
+	+ 　A videó a vásárlás véglegesítésével és\n
+	+  a kölcsönzési időszak kezdetével\n
+	+  azonnal megtekinthetővé válik.
+3d09d02	= ● A tartalmak kölcsönzési\n
+	+ 　időszakát nem lehet automatikusan\n
+	+ 　meghosszabbítani. Az időszak végén\n
+	+  ismét meg kell vásárolnod őket.\n
+	+ ● A Wii Roomban megvásárolt tartal-\n
+	+  makat csak a Wii Roomban tekint-\n
+	+  heted meg; más Wii programokban nem.
+3d09d03	= ● A Wii Room használatához\n
+	+ 　élő internetkapcsolattal kell\n
+	+  rendelkezned.\n
+	+ ● A videók megtekintési jogai a\n
+	+ 　Wii Room felhasználási\n
+	+ 　feltételeihez kötöttek.
+3d09e00	= A pénzügyi tranzakciókkal kapcsolatos\n
+	+ további információkért keresd fel a\n
+	+ Wii Áruházcsatorna kézikönyvének\n
+	+ ehhez kapcsolódó oldalát!
+3d09f00	= A videómegtekintési jogok érvényesítése\n
+	+ sikertelen. Ellenőrizd, hogy valóban\n
+	+ megvásároltad-e ezt a tartalmat a\n
+	+ vásárlási előzményekben!
+3d0a200	= Nincs internetkapcsolat.\n
+	+ Ellenőrizd a Wii konzol\n
+	+ internetbeállításait!\n
+	+ \n
+	+ Hibakód:\040
+3d0a300	= Nincs internetkapcsolat.\n
+	+ Ellenőrizd a Wii konzol\n
+	+ internetbeállításait!\n
+	+ \n
+	+ Hibakód:\040
+3d0a400	= A vásárlási folyamat meghiúsult.\n
+	+ Ellenőrizd a Wii Áruházcsatornát!\n
+	+ \n
+	+ Hibakód:\040
+3d0a500	= A PIN-kód helytelen.
+3d0a600	= A vásárlási funkció jelenleg\n
+	+ nem elérhető, mert nem fogadtad el\n
+	+ a licencszerződést.\n
+	+ Ezt a Wii-beállításokban\n
+	+ megteheted.
+3d0a700	= A vásárlás meghiúsult, mert\n
+	+ ez a tartalom jelenleg nem elérhető.\n
+	+ Hibakód:\040
+3d0a901	= Leghosszabb lehetséges érvényesség
+3d0a902	= Legfeljebb 1 nap.
+3d0aa00	= Hiba történt. Próbáld újra!\n
+	+ Ha a hiba fennáll, lépj kapcsolatba\n
+	+ a Nintendo ügyfélszolgálattal!\n
+	+ \n
+	+ Hibakód:\040
+3d0ab00	= Zárd be a Wii Roomot,\n
+	+ nyisd meg a Wii Áruházcsatornát,\n
+	+ majd nyisd meg újra a Wii Roomot!\n
+	+ \n
+	+ Hibakód:\040
+493e000	= Lista
+4941c00	= \040
+4943000	= Adatok lekérése...
+49fc000	= Keresés
+49fc100	= Adj meg\n
+    + egy kulcsszót!
+49fe800	= Helyes ez a\n
+	+ kulcsszó?
+4a3f800	= Ez a videó\n
+	+ eltávolításra kerül\n
+	+ a kedvencek listájáról.
+4a40c00	= Melyik videó\n
+	+ legyen eltávolítva\n
+	+ a kedvencek listájáról?
+4a4ac00	= A kedvencek listája\n
+	+ jelenleg üres.
+4a4b600	= Még egy videót\n
+	+ sem láttál.
+4a51000	= Igen
+4af3800	= Isten hozott a\n
+	+ Wii Roomban!
+4af3801	= Körbevezetlek!
+4af3802	= Ez az\n
+	+ ajánlott\n
+	+ tartalmak\n
+	+ listája.
+4af3803	= Válassz ki\n
+	+ egy műsort,\n
+	+ ha megtetszik!
+4af3804	= A Keresés-gombbal\n
+	+ kutathatsz\n
+	+ műsorok után.
+4af3805	= A legújabb\n
+	+ tartalmakat az\n
+	+ Új-menüpont alatt\n
+	+ találod meg.
+4af3806	= A magasra becsült\n
+	+ tartalmakat a\n
+	+ Felkapott-menüben\n
+	+ láthatod,
+4af3807	= kategóriákra\n
+	+ bontva.
+4af3808	= A vendégek\n
+	+ műsorait\n
+	+ itt találod.
+4af3809	= És itt vannak\n
+	+ a különböző\n
+	+ szobák videói.
+4af380a	= Az általad kedvelt\n
+	+ tartalmakat is\n
+	+ böngészheted,
+4af380b	= vagy rákereshetsz\n
+	+ bármilyen tartalomra!
+4af380c	= Jó szórakozást\n
+	+ kívánunk!
+4b70800	= Új
+4b70801	= Felkapott
+4b70802	= Vendégek
+4b70803	= Szbk.
+4b70804	= Kedvencek
+4b70805	= Keresés
+4b8fc00	= Műfaj
+4b8fc01	= Mind
+4b8fc02	= A
+4b8fc03	= B
+4b8fc04	= C
+4b8fc05	= D
+4b8fc06	= E
+4b96001	= Csökkenő
+4b96002	= Növekvő
+4b96003	= Értékelés
+4baf000	= „Mind”
+4baf001	= F
+4baf002	= N
+4baf003	= A
+4baf004	= B
+4baf005	= 0
+4baf006	= AB
+4baf007	= "10 alatt"
+4baf008	= "10–19"
+4baf009	= "20–29"
+4baf00a	= "30–39"
+4baf00b	= "40–49"
+4baf00c	= "50–59"
+4baf00d	= "60–69"
+4baf00e	= "70 felett"
+4e5e801	= Üdv! Milyen\n
+	+ műsort szeretnél?
+4e5e802	= Ezek a\n
+	+ jelenlegi\n
+	+ javaslataink.
+4e5e803	= Válassz ki\n
+	+ egy műsort!
+4e5e804	=  (üres)
+4e5e805	= Milyen műsort\n
+	+ szeretnél?
+4e5e807	= Válassz ki\n
+	+ egy kategóriát!
+4e5e808	= Az értékelések\n
+	+ kategóriák\n
+	+ szerint vannak\n
+	+ sorba téve.
+4e5e80b	= Válassz ki\n
+	+ egy különleges\n
+	+ műsort!
+4e5e80c	= Ezen a listán\n
+	+ vannak az általad\n
+	+ kedvencnek\n
+	+ jelölt tartalmak.
+4e5e80d	= Még semmit\n
+	+ sem jelöltél\n
+	+ kedvencnek.
+4e5e80e	= Mit szeretnél\n
+	+ eltávolítani?
+4e5e80f	= Biztosan el\n
+	+ akarod távolítani\n
+	+ ezt a kedvencek\n
+	+ közül?
+4e5e810	= A szobákban\n
+	+ található\n
+	+ tartalmak.
+4e5e811	= Adj meg egy\n
+	+ kulcsszót a\n
+	+ kereséshez!
+4e5e812	= Nincs találat.\n
+	+ Próbálkozz más\n
+	+ kulcsszóval!
+4e5e813	= A kulcsszó\n
+	+ megadása után\n
+	+ nyomd meg a\n
+	+ Keresés-gombot!
+4e5e814	= Keresés\n
+	+ folyamatban...\n
+	+ Légy türelemmel!
+4e5e815	= : Felkapott\n
+	+ tartalmak
+4e5e816	= \040
+4e5e817	= Ezek a\n
+	+ legújabb\n
+	+ tartalmak.
+4e5e818	=   bemutatója...
+4e5e81b	=  Keresés
+4e5e81f	= Az\n
+	+ eltávolításhoz\n
+	+ válaszd ki\n
+	+ a szemetest!
+4e5e820	= Találatok az alábbi kifejezésre:\n
+	+ „
+4e5e821	= …
+4e5e822	= ”
+4e5ed01	= Legalább\n
+	+ két karaktert\n
+	+ kell megadnod!
+4e5ed02	= Próbálkozz\n
+	+ egy másik\n
+	+ kulcsszóval!
+4ea3401	= Csodás az idő!
+4ea3402	= Ma ünnepnap van!
+4ea9801	= Itt találod\n
+	+ a legújabb\n
+	+ műsorokat.
+4ea9802	= Ezek a műsorok\n
+	+ nem és korosztály\n
+	+ szerint vannak\n
+	+ sorba téve.
+4ea9804	= Ezek a\n
+	+ vendégek\n
+	+ tartalmai.
+4ea9805	= Ezek a\n
+	+ szobák\n
+	+ tartalmai.
+4ea9806	= Ezen a listán\n
+	+ vannak az általad\n
+	+ kedvencnek\n
+	+ jelölt tartalmak.
+4ea9807	= A kereséshez\n
+	+ adj meg egy\n
+	+ kulcsszót!
+4edb801	= BÚÉK!
+4edb802	= Köszönjük,\n
+	+ hogy idén is\n
+	+ velünk voltál!
+4edb803	= Hideg van.\n
+	+ Ne feledj\n
+	+ felöltözni;\n
+	+ nehogy megfázz!
+4edb804	= Kezd felmelegedni\n
+	+ az időjárás, úgyhogy\n
+	+ már én is tavaszi\n
+	+ ruhákat hordok.
+4edb805	= Beköszöntött\n
+	+ az új év!\n
+	+ Olyan felfrissültnek\n
+	+ érzem magam!
+4edb806	= Beköszöntött\n
+	+ a nyár.\n
+	+ Elővetted már a\n
+	+ nyári ruhákat?
+4edb807	= Meleg van!\n
+	+ Ne feledj el\n
+	+ lengén öltözni!
+4edb808	= Majdnem itt\n
+	+ az ősz.\n
+	+ Öltözzünk\n
+	+ stílusosan!
+4edb809	= Beköszöntött\n
+	+ a tél.\n
+	+ Elővetted már a\n
+	+ téli ruhákat?
+4edb80a	= December van!\n
+	+ Brr!
+4edb80b	= Boldog karácsonyt!\n
+	+ Feldíszítetted már\n
+	+ a karácsonyfát?
+5573001	= Megvásárolt
+5573002	= Keresés
+5573005	= Fények
+5573006	= Nagyítás
+5573a01	= Szeretnéd megtekinteni a\n
+	+ kapcsolódó videót?
+5573a04	= Szeretnéd megtekinteni a\n
+	+ kapcsolódó listát?
+5574401	= Poszter \x{e042}!
+5579401	= TV \x{e042}!
+557c601	= - Wii pontokkal vásárolhatsz\n
+	+ és kölcsönözhetsz.\n
+	+ - Wii pontokat a Wii Áruház\n
+	+ Csatornán vásárolhatsz.
+557f800	= vagy
+557f900	= tovább
+5585d00	=  →
+5585e00	=  ←
+5585f00	= újrajátszás
+558c100	= Nem\n
+	+ áthelyezhető
+5592500	= Nem\n
+	+ áthelyezhető
+55b1801	= Wii Roomos megjelenési dátum szerint
+55b1802	= Betűrendben
+55b1803	= Megjelenési dátum szerint
+55ca801	= Add meg a keresési kategóriát!
+55ca901	= Ajánlott
+55d0c01	= Új
+55d0d01	=  javaslatai.
+55d0d02	= Ez milyen típusú személynek tetszene?
+55d0e01	= Találatok az alábbi kifejezésre „
+55d0e02	= ”
+55d0f01	= Adj meg egy kulcsszót és nyomd meg a Keresés-gombot!
+55d1001	= Adj meg\n
+    + egy kulcsszót!
+55d1002	= Nyomd meg a keresés gombot!
+55d3e01	= Válassz ki egy műfajt!
+55d7100	= Nincs találat.\n
+	+ Próbálkozz másik kulcsszóval!
+55d7101	= Legalább két karaktert\n
+	+ kell megadnod!
+55d7200	= Nincs találat.
+55dd400	= Ajánlott
+55f0001	= Keresés
+55f0002	= Megvásárolt
+55f0a01	= Könyvtár
+55f1401	= Nincs elérhető tartalom.
+55f1e01	= A kereséshez válassz ki egy betűt!
+562e801	= あ
+562e802	= か
+562e803	= さ
+562e804	= た
+562e805	= な
+562e806	= は
+562e807	= ま
+562e808	= や
+562e809	= ら
+562e80a	= わ
+562e900	= „
+562f300	= „
+562f400	= ”-című
+562f401	= ”-betűs videó nem található.\n
+	+ Próbálkozz másik betűvel!
+566d100	= A tétel lekérése meghiúsult.\n
+	+ Lehetséges, hogy ez a tétel lejárt.
+566d200	= Nincs kikölcsönzött vagy megvásárolt tétel.
+566d300	= A kölcsönzési időszak lejárt.
+566d400	= .
+566d500	= Megvásárlás
+566d501	= Kikölcsönözve
+566d600	= Visszatérítés
+566d601	= Visszatérítés
+56ab900	= Egyenleg
+56aba00	= Egyenlegfeltöltés
+5a55100	= Ez a videó jelenleg nem elérhető.\n
+	+ \n
+	+ Hibakód:\040
+5a55101	= Ezt a tartalmat nem lehet a\n
+	+ Wii Room Anywhere-re küldeni,\n
+	+ mert lejárt.
+	+ \n
+	+ Hibakód:\040
+5a55300	= Nem lehet kapcsolódni a\n
+	+ kiszolgálóhoz.\n
+	+ Próbáld újra később!
+61c7500	= Lista
+61c7600	= Parádé
+61e6800	= -szoba
+61e7c00	= Részletek
+6225000	= Licencsz.
+6231800	= Helyesek ezek az adatok?
+6232200	= Cím megváltoztatása
+6232c00 [,45] = A házhozszállításhoz\n
+	+ cím és telefonszám\n
+	+ szükséges.\n
+	+ \n
+	+ Szeretnéd ezeket most megadni?
+6233600	= Nincs megadott email-cím.\n
+	+ A sorsolásban való részvételhez\n
+	+ email-cím szükséges.\n
+	+ \n
+	+ Szeretnéd ezt most megadni?
+6234000	= Mii(k) kiválasztása
+6237c00	= Sikeresen beléptél a sorsolásba!
+623e000 [,45] = Ez a szolgáltatás megszűnt.
+623ea00 [,45] = Ehhez a termékhez megszűnt\n
+	+ a házhozszállítás.
+6244401 [,45] = Jelenleg nem fogadunk\n
+	+ több jelentkezést.
+6244402 [,45] = Megszűnt\n
+	+ a házhozszállítás.
+6244403	= Jelenleg nem fogadunk\n
+	+ több kérelmet.
+	+ \n
+	+ Hibakód:\040
+6244407 [,45] = A szolgáltatás igénybevételéhez\n
+	+ érvényes email-cím és telefonszám\n
+	+ szükséges. Szeretnéd megnyitni a
+	+ címbeállításokat és megadni\n
+	+ ezeket az adatokat?\n
+6244408 [,45] = A Wii-címbeállítások sérültek.\n
+	+ Az adatok alaphelyzetbe állítása\n
+	+ szükséges.\n
+	+ \n
+	+ Rendben?
+6244409 [,45] = A címbeállítások elavultak.
+	+ \n
+	+ Rendszerfrissítés szükséges.
+624440a [,45] = A címbeállítások frissítése\n
+	+ meghiúsult.
+	+ \t\n
+	+ Rendszerfrissítés szükséges.
+624440b [,45] = A címadatokban nem szerepel\n
+	+ furigana. Kérjük, pótold!\n
+	+ \n
+	+ Szeretnéd ezt most megtenni?
+6263800	= Terms
+6263801 [,45] = Ezt a kupont csak\n
+	+ egyszer töltheted le.\n
+	+ \n
+	+ Biztos vagy benne?
+6263802 [,45] = Ezt a kupont már.\n
+	+ korábban letöltötték.\n
+	+ \n
+	+ Többször nem lehet letölteni.
+6264201	= Üdvözlet!
+6264202 [,45] = Ez a tartalom még\n
+	+ nem jelent meg.\n
+	+ \n
+	+ Hibakód:\040
+6264203 [,45] = Hozzáférés megtagadva.\n
+	+ \n
+	+ Hibakód:\040
+6264204	= Kiszolgálóhiba történt.\n
+	+ Visszalépés a Wii Roomba.\n
+	+ \n
+	+ Hibakód:\040
+6264205	= A szobákban található tartalmakat partnerek biztosítják.
+62a2000	= Még
+62a2003 [,45] = A Mii-nélküli felhasználók\n
+	+ is szavazhatnak.\n
+	+ Férfiak: kék figurák\n
+	+ Nők: piros figurák\n
+	+ Legfeljebb 10-szer szavazhatsz.
+62a2004	= Szavazott
+62a2005	= Köszönjük az\n
+	+ együttműködést!
+62a200a	= Súgó
+62a2100	= +
+62a2200	= \n
+    + Megragad.
+62a2300	= \n
+    + Megragadás
+62a2400	= Wii Rem.\n
+	+ mozgat.
+62a2500	= +
+62a2600	= \040
+62a2700	= Elenged.
+62a2800	= Súgó
+62e0803	= Kilépés
+62e0805	= Elem értékelése
+62e0806	= Helyezd el a Miit az értékeléshez!
+62ffc01	= Értékelés
+631f100	= Vissza a szobákhoz
+631f101 [,45] = A címadatok nincsenek megadva.\n
+	+ Nyisd meg a Wii Room-beállításokon\n
+	+ belül a Címbeállításokat!
+633e500	= Hiba történt.\n
+	+ Ellenőrizd az internetbeállításokat\n
+	+ vagy várj egy kicsit és\n
+	+ próbáld újra!
+	+ \n
+	+ Hibakód:\040
+633e600	= Kiszolgálóhiba történt.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+635d801	= Az Internetcsatorna\n
+	+ nem található.
+635d802	= Az Internetcsatorna\n
+	+ elavult.
+635d803	= Hiba történt.\n
+	+ Visszalépés az előző\n
+	+ képernyőre.
+927c000	= Válaszd ki az üzenetet kézbesítendő Miit!
+92ba800	= Milyen az üzenet hangulata?
+92bb200	= Mmm...
+92bbc00	= Hurrá!
+92bc600	= Jaj!
+92bd000	= Bocsi!
+92bda00	= Ez az!
+92be400	= Szia!
+92f9000	= Válaszd ki a címzettet!
+92f9a00	= Családtag
+92fa400	= Wii-barát
+92fae00 [,45] = Legfeljebb 30 üzenetet küldhetsz el.\n
+	+ Jelenleg \040 üzenetnél tartasz.
+92fae01 [,45] = Ha eléred a 30 kimenő üzenetet,\n
+	+ akkor addig nem leszel képes\n
+	+ többet küldeni, amíg nem kapsz\n
+	+ több bejövő üzenetet.
+92fae02 [,45] = Elérted a maximum kimenő üzenetek\n
+	+ mennyiségét. Amíg holnap nem kapsz\n
+	+ több bejövő üzenetet, nem leszel\n
+	+ képes többet küldeni.
+92fae03	= Az üzenet küldése meghiúsult.\n
+	+ \n
+	+ Próbáld újra később! Ha a hiba\n
+	+ fennáll, indítsd újra a konzolt!\n
+	+ \n
+	+ Hibakód:\040
+9337800	= Üzenet megadása
+9376000	= Üzenet megerősítése
+9376a00	= Küldés
+9377400	= Átírás
+9377e00	= \040
+9377f00	= Kimenő üzenetek
+9378000	=  ajánlóüzenete
+9378300	= Családnak
+9378400	= Ajánlóüzenet a\n
+	+ családnak
+9378800	= Üzenet elküldve.
+aae6000	= Wii Room Anywhere előkészítése...
+aae6001	= Várakozás a Wii Room Anywhere-re...
+aae6002	= Ez eltarthat egy darabig...
+aae6003	= Wii Room Anywhere előkészítése...
+aae6a00	= Nyisd meg a Wii Room\n
+	+ Anywhere-alkalmazást\n
+	+ Nintendo DSi-konzolodon!\n
+	+ Ez az alkalmazás ingyenesen\n
+	+ letölthető a DSi Áruházból.
+aae7400	= Wii Room Anywhere észlelve.
+aae7401	= Ellenőrizd a Wii\n
+	+ Room Anywhere-alkalmazást a\n
+	+ Nintendo DSi-konzolodon\n
+	+ és add meg a mentés\n
+	+ helyét!
+ab24800	= Videó(k) küldése folyamatban...
+ab24801	= Kupon küldése folyamatban...
+ab25200	= Nyisd meg a Wii Room\n
+	+ Anywhere-alkalmazást\n
+	+ Nintendo DSi-konzolodon!\n
+	+ Ez az alkalmazás ingyenesen\n
+	+ letölthető a DSi Áruházból.
+ab25c00 [,45] = Újracsatlakozás az internethez...\n
+	+ Légy türelemmel!
+ab26600 [,45] = Szeretnéd a tartalmat\n
+	+ egy másik rendszerre is\n
+	+ elküldeni?
+ab27000 [,45] = Megszakadt a kapcsolat\n
+	+ a Wii Room Anywhere-rel.
+c350000	= Beállítások
+c350a00	= Videók
+c351400	= Család
+c352800	= Licencsz.
+c353200	= Régió
+c353201	= Mii szerkesztése
+c353202	= Régió
+c353203	= Cím
+c38e800	= Videók
+c38f200	= Válaszd ki a videók minőségét!\n
+	+ Ha a videólejátszás akadozik,\n
+	+ válaszd az átlagos minőséget!
+c38fc00	= Magas
+c390600	= Átlagos
+c391000	= Minta
+c391a01 [,45] = A kiválasztott videóminőség:\n
+	+ Magas.\n
+	+ \n
+	+ Ezt később bármikor\n
+	+ megváltoztathatod.
+c392401 [,45] = A kiválasztott videóminőség:\n
+	+ Átlagos.\n
+	+ \n
+	+ Ezt később bármikor\n
+	+ megváltoztathatod.
+c3cd000	= Család
+c3cda00	= Új Mii
+c3ce400	= Mii törlése
+c3d3e00	= Nem
+c3d4800	= Sz.nap
+c3d5200	= Év
+c3d5201	= ?
+c3d5c00	= Vértípus
+c3d9800	= Válassz ki egy Miit!
+c3da200	= Biztosan ezt a Miit választod?
+c3dac00	= Születési év
+c3db600	= Vértípus
+c3dc000	= A
+c3dca00	= B
+c3dd400	= 0
+c3dde00	= AB
+c3de800	= ?
+c3df200	= Ismeretl.
+c3dfc00	= Helyesek ezek az adatok?
+c3e1000	= \040
+c3e1001 [,45] =  regisztrálva.\n
+	+ \n
+	+ Ha törlöd ezt a Miit a\n
+	+ Mii Csatornáról, akkor a\n
+	+ Wii Roomból is törölve lesz,\n
+	+ ezért légy óvatos!
+c3e6a00	= Törlés\040
+c3e6a01	= ?
+c3e6f01	= Törlés
+c3e6f02	= Mégse
+c3e7400 [,45] = A Mii törlése az\n
+	+ összes kapcsolódó adat\n
+	+ törlésével is jár.\n
+	+ \n
+	+ Rendben?
+c3e7e00	= \040
+c3e7e01	=  törölve.
+c40b800	= Licencsz.
+c44a000 [,45] = Átirányítunk a\n
+	+ címbeállításokhoz.\n
+	+ \n
+	+ Rendben?
+c44a001 [,45] = Átirányítunk a\n
+	+ címbeállításokhoz.\n
+	+ \n
+	+ Rendben?
+c488900	= Wii Room-súgó
+c488a00	= Videó
+c488b00	= Az alapok
+c488c00	= Műsorok
+c488d00	= Mozi
+dbba000	=  üzenete.\n
+dbba001	= 　
+dbba002	= 　
+dbba003	= 　
+dbba004	= 　
+dbba005	= 　
+dbba006	= 　
+dbba007	= 　\n
+	+ Az üzenet tartalma:
+dbba008	= Ez a mű ajánlott.\n
+	+ \n
+	+ A Wii Roomban megtekinthető.
+dbba009	= 　\n
+	+ A Wii Room egy olyan szolgáltatás,\n
+	+ ami lehetővé teszi a videónézést a\n
+	+ TV-den és az üzenetküldést a\n
+	+ barátaid számára.\n
+	+ 　
+dbba00a	= Ha megnyomod a jobb alsó\n
+	+ sarokban látható Indítás-gombot,\n
+	+ akkor ingyenesen letöltheted\n
+	+ a Wii Áruházcsatornáról.
+dbc0400	= üzenetet küldött!
+dbc0401	= A Wii Roomban megtekinthető.
+dbc0402	= 　\n
+	+ Megjegyzés: Az internetkapcsolattól\n
+	+ függően lehetséges, hogy az üzenet\n
+	+ nem jelenik meg.\n
+	+ \n
+	+ Üdvözlettel:\n
+	+ A Nintendo
+dbc6800	= Wii Room házhozszállítás\n
+	+ \n
+	+ Az alábbi megrendelést\n
+	+ elfogadták!
+dbc6801	= A vásárlási előzményeket\n
+	+ nem lehetett a Wii üzenőfalon\n
+	+ közzétenni.\n
+	+ \n
+	+ Megjegyzés: A megrendelést\n
+	+ elfogadták.\n
+	+ \n
+	+ Hibakód:\040
+dbc6802	= Megjegyzés: Ha kérdésed lenne\n
+	+ 　erről a szolgáltatásról,\n
+	+ 　keresd fel a szolgáltatót!
+f424000 [,45] = Adatátviteli hiba történt,\n
+	+ ezért megszakadt a kapcsolat.\n
+	+ \n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra!\n
+	+ \n
+	+ Hibakód:\040
+f424007 [,45] = Az adatok lejártak.\n
+	+ \n
+	+ Hibakód:\040
+f424008 [,45] = Kiszolgálóhiba történt.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+f424009 [,45] = Megszakadt a kapcsolat.\n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra!
+	+ \n
+	+ Hibakód:\040
+f42400b [,45] = Kiszolgálóoldali hiba történt.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+f42400c [,45] = Adatátviteli hiba történt.\n
+	+ \n
+	+ Hibakód:\040
+f42400f [,45] = Adatátviteli hiba történt,\n
+	+ ezért megszakadt a kapcsolat.\n
+	+ \n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra!\n
+	+ \n
+	+ Hibakód:\040
+f424a0c [,45] = Adatátviteli hiba történt.\n
+	+ \n
+	+ Hibakód:\040
+f424a0e [,45] = Egy kiszolgálóhiba miatt\n
+	+ ez a funkció nem elérhető.\n
+	+ \n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+f42a400 [,45] = Hiba történt a Wii\n
+	+ belső tárhelyével, ezért a\n
+	+ WiiConnect24 nem használható.\n
+	+ \n
+	+ Hibakód:\040
+f42a401 [,45] = A WiiConnect24 használatához\n
+	+ rendszerfrissítés szükséges.\n
+	+ A részletekért olvasd el a\n
+	+ Wii kézikönyvet!\n
+	+ \n
+	+ Hibakód:\040
+f42a402 [,45] = Hiba történt, ezért a\n
+	+ WiiConnect24 nem használható.\n
+	+ \n
+	+ Hibakód:\040
+f42a403 [,45] = A WiiConnect24 átmenetileg\n
+	+ nem elérhető.\n
+	+ \n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+f42a404 [,45] = A WiiConnect24-szolgáltatás\n
+	+ le van tiltva. Ellenőrizd a\n
+	+ Wii-beállításokat!\n
+	+ A részletekért olvasd el a\n
+	+ Wii kézikönyvet!\n
+	+ \n
+	+ Hibakód:\040
+f42a405 [,45] = Nincs internetkapcsolat,\n
+	+ ezért a WiiConnect24 nem\n
+	+ használható. Ellenőrizd az\n
+	+ internetbeállításokat!\n
+	+ A részletekért olvasd el a\n
+	+ Wii kézikönyvet!\n
+	+ \n
+	+ Hibakód:\040
+f42a406 [,45] = A WiiConnect24 átmenetileg\n
+	+ nem elérhető.\n
+	+ \n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+f42a407 [,45] = A WiiConnect24 átmenetileg\n
+	+ nem elérhető.\n
+	+ \n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+f42a408 [,45] = Hiba történt a Wii\n
+	+ belső tárhelyével, ezért a\n
+	+ WiiConnect24 nem használható.\n
+	+ \n
+	+ Hibakód:\040
+f42a409 [,45] = Hiba történt.\n
+	+ A WiiConnect24 előkészítése\n
+	+ meghiúsult.\n
+	+ \n
+	+ Hibakód:\040
+f42a40b [,45] = A hálózati csatlakozást\n
+	+ jelenleg a szülői felügyelet\n
+	+ korlátozza.\n
+	+ \n
+	+ Hibakód:\040
+f436d00	= Az adatátvitel meghiúsult,\n
+	+ mert az adatok sérültek.\n
+	+ \n
+	+ Hibakód:\040
+f43d100	= Jelenleg nem lehetséges a videók\n
+	+ megvásárlása vagy kikölcsönzése.\n
+	+ \n
+	+ Hibakód:\040
+f440201	= Ez a tétel\n
+	+ már nem megvásárolható.\n
+	+ \n
+	+ Hibakód:\040
+f440301	= A régiódban nem lehetséges\n
+	+ megtekinteni ezt a tételt.\n
+	+ \n
+	+ Hibakód:\040
+f443401	= A kiszolgálóhoz való csatlakozás\n
+	+ meghiúsult, ezért a vásárlási\n
+	+ előzmények nem tekinthetők meg.\n
+	+ \n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód:\040
+f449801	= Ennek a tételnek lejárt\n
+	+ a vásárlási időszaka.\n
+	+ \n
+	+ A megvásárlása sajnos\n
+	+ nem lehetséges.\n
+	+ \n
+	+ Hibakód:\040
+f44fc01	= Ez a funkció nem használható,\n
+	+ mert még nem vásároltál\n
+	+ semmit sem.
+f456001	= A kérésedet visszaigazolták és\n
+	+ sikeresen feldolgozták.
+f456101	= A kiszolgáló jelenleg\n
+	+ túlságosan elfoglalt.
+	+ \n
+	+ Próbáld újra később!
+
