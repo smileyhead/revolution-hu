@@ -1,0 +1,1041 @@
+#BMG  <<<  The first 4 characters '#BMG' are the magic for a BMG text file.
+#     <<<  Don't remove them!
+#
+# Details about BMG text files are available in the Web:
+#  * Syntax and Semantics: https://szs.wiimm.de/doc/bmg/text
+#  * The BMG file format:  https://szs.wiimm.de/r/wiki/BMG
+#
+#
+#------------------------------------------------------------------------------
+# All parameters begin with '@'. Unknown parameters are ignored on scanning.
+
+# The endianness of binary files: 0=big endian (default), 1=little endian.
+# Little endian is only tested for encoding UTF-8 (need examples of analysis).
+@ENDIAN = 0
+
+# If 1, then enable legacy (GameCube) mode for old binary BMG files.
+# If enabled, ENCODING is always CP1252.
+@LEGACY = 0
+
+# Define encoding of BMG: 1=CP1252, 2=UTF-16/be, 3=Shift-JIS, 4=UTF-8
+@ENCODING = 2
+
+# Create »MID1« section: 0=off, 1=on
+@BMG-MID = 0
+
+# Size of each element of section 'INF1' (MKW=8).
+# This setting has impact to attributes and MKW features.
+@INF-SIZE = 0x04
+
+# Default attribute values for this BMG (MKW=[1])
+@DEFAULT-ATTRIBS = []
+
+# Use MKW specific color names: 0=off, 1=auto, 2=on
+@COLOR-NAMES = 1
+
+# Use MKW messages and track names: 0=off, 1=auto, 2=on
+@MKW-MESSAGES = 1
+
+#
+#------------------------------------------------------------------------------
+
+# This part defines values for unknown parameters of section headers.
+@UNKNOWN-INF32-0C =          0	# 32 bit value of section INF1 offset 0x0c
+@UNKNOWN-MID16-0A =     0x1000	# 16 bit value of section MID1 offset 0x0a
+@UNKNOWN-MID32-0C =          0	# 32 bit value of section MID1 offset 0x0c
+
+#
+#------------------------------------------------------------------------------
+
+     0	= Lemezcsatorna
+     1	= Wii menü
+     2	= Indítás
+     3	= 
+     4	= Helyezz be egy lemezt!
+     5	= 
+     6	= A lemez nem olvasható.\n
+	+ \n
+	+ A hiba elhárításához\n
+	+ olvasd el a\n
+	+ használati utasítást!
+     7	= Hiba történt. Nyomd meg\n
+	+ az Eject-gombot és távolítsd\n
+	+ el a lemezt, majd kapcsold ki\n
+	+ a konzolt és a hiba\n
+	+ elhárításához olvasd el a\n
+	+ használati utasítást!
+     8	= A Wii belső tárhelye sérült.\n
+	+ A hiba elhárításához\n
+	+ olvasd el a\n
+	+ használati utasítást!
+     9	= Csatlakoztass egy Nunchukot\n
+	+ Wii Remote-hoz!
+     a	= Csatlakoztass\n
+	+ egy Classic Controllert\n
+	+ Wii Remote-hoz!
+     b	= A Wii üzenőfal adatai\n
+	+ sérültek. Az adatok automatikusjavításra kerültek, de
+	+  lehetséges,\n
+	+ hogy bizonyos üzenetek elvesztek.
+     c	= A rendszerfájlok sérültek. \n
+	+ A hiba elhárításához olvasd el a\n
+	+ használati utasítást!
+     d	= Csatlakoztass egy Classic Controllert a\n
+	+ Wii Remote-hoz vagy egy Nintendo\n
+	+ GameCube-vezérlőt a Wii-konzolhoz!
+     e	= Wii-beállítások
+     f	= Wii üzenőfal
+    10	= Wii menü
+    11	= Naptár
+    12	= Új üzenet
+    13	= Ez a csatorna nem használható.
+    14	= Frissítés
+    15	= Frissítés
+    16	= Hátralévő csatornaidő:\040
+    17	= Kevesebb, mint 1 perc
+    18	= :
+    19	= 
+    1a	= A csatorna használati\n
+	+ licence lejárt.
+    1b	= A rendszer jelenleg\n
+	+ karbantartási módban üzemel.\n
+	+ A Wii üzenőfal nem elérhető.
+    1c	= 
+    1d	= A csatorna használati\n
+	+ ideje lejárt.
+    1e	= Nyomd meg az A-gombot!
+    1f	= :
+    20	= 
+    21	= Karbantartási módban\n
+	+ ez a funckió\n
+	+ nem használható.
+    22	= Fényképeket csak más\n
+	+ Wii-konzolokra lehet küldeni.
+    23	= Vissza
+    24	= Közzététel
+    25	= Kilépés
+    26	= Befejezés
+    27	= Küldés
+    28	= Törlés
+    29	= Regisztráció
+    2a	= Üzenet küldése
+    2b	= Becenév\n
+	+ megváltoztatása
+    2c	= Wii-szám
+    2d	= Becenév
+    2e	= OK
+    2f	= Törlés
+    30	= Biztosan törölni szeretnéd ezt?
+    31	= Wii-szám
+    32	= Becenév
+    33	= Küldés
+    34	= Az SD kártyát használat előtt\n
+	+ formázni kell. Ez minden adatot\n
+	+ törölni fog az SD kártyáról. Rendben?
+    35	= SD kártya formázása folyamatban...\n
+	+ Ne távolítsd el az SD kártyát\n
+	+ vagy kapcsold ki a konzolt!
+    36	= Az SD kártya formázása\n
+	+ befejeződött.
+    37	= Az SD kártya formázása\n
+	+ meghiúsult. Ez az SD kártya\n
+	+ nem használható.
+    38	= Az SD kártya-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    39	= A Wii üzenőfal kezd megtelni.\n
+	+ A régebbi adatok az SD kártyára\n
+	+ lesznek áthelyezve.
+    3a	= Adatok áthelyezése az\n
+	+ SD kártyára...\n
+	+ Ne távolítsd el az SD kártyát\n
+	+ vagy kapcsold ki a konzolt!
+    3b	= A Wii üzenőfal adatai\n
+	+ az SD kártyára lettek\n
+	+ áthelyezve.
+    3c	= Az SD kártya megtelt, ezért\n
+	+ az adatok áthelyezése meghiúsult.
+    3d	= Az áthelyezés meghiúsult.\n
+	+ Ellenőrizd, hogy az SD kártya\n
+	+ működőképes-e!
+    3e	= Az SD kártya zárolva van.\n
+	+ Az adatok módosításához\n
+	+ oldd fel a zárolást!
+    3f	= Email-cím
+    40	= Biztosan törölni szeretnéd ezt?
+    41	= Biztos vagy benne?
+    42	= A konzol Wii-száma
+    43	= Válasz
+    44	= Címjegyzékbe helyezve.
+    45	= Biztosan ki szeretnél lépni?
+    46	= Továbbiak
+    47	= Adj meg egy Wii-számot!
+    48	= Adj meg egy címet!
+    49	= Adj meg egy becenevet!
+    4a	= Cím feljegyezve. Az üzenetváltáshoz\n
+	+ mindkettőtöknek regisztrálnia kell a\n
+	+ másikat és csatlakoznotok kell az\n
+	+ internethez!
+    4b	= Email-cím megerősítése
+    4c	= Wii-szám megerősítése
+    4d	= Wii
+    4e	= Cím megadása
+    4f	= Vissza
+    50	= A címjegyzéked megtelt, ezért\n
+	+ nem regisztrálhatsz további címeket.
+    51	= Wii-barát törölve.
+    52	= Ez a Wii-szám már regisztrálva van.
+    53	= Ez az email-cím már regisztrálva van.
+    54	= A megadott Wii-szám helytelen.
+    55	= Csatolhatsz Miit.
+    56	= Ezt a Wii-számot nem lehet\n
+	+ regisztrálni.
+    57	= Várakozás a visszaigazolásra.\n
+	+ \n
+	+ Az üzenetváltáshoz mindkettőtöknek\n
+	+ regisztrálnia kell a másikat.
+    58	= Ez az Internetcsatornán lesz megnyitva.\n
+	+ Szeretnéd megnyitni az Internetcsatornát?
+    59	= Az Internetcsatorna nincs telepítve.
+    5a	= Az Internetcsatorna jelenleg telepített\n
+	+ verziójával nem lehet címre ugrani.
+    5b	= Ez a csatorna nincs telepítve.
+    5c	= Leiratkozás
+    5d	= Leiratkozás...
+    5e	= Erről az üzenetszolgáltatásról
+    5f	= Az összes üzenetszolgáltatásról
+    60	= Mégse
+    61	= Biztos vagy benne?
+    62	= Leiratkoztál a csatorna\n
+	+ üzenetszolgáltatásáról.
+    63	= Leiratkoztál az\n
+	+ összes csatorna és játéküzenetszolgáltatásáról.
+    64	= Probléma akadt a WiiConnect24\n
+	+ -szolgáltatással, ezért az üzenet-\n
+	+ küldést nem lehetett megszakítani.\n
+	+ Próbáld újra később!
+    65	= Leiratkozás
+    66	= Leiratkozás...
+    67	= Erről az üzenetszolgáltatásról
+    68	= Az összes üzenetszolgáltatásról
+    69	= Mégse
+    6a	= Biztos vagy benne?
+    6b	= Leiratkoztál a csatorna\n
+	+ üzenetszolgáltatásáról.
+    6c	= Leiratkoztál az\n
+	+ összes csatorna és játéküzenetszolgáltatásáról.
+    6d	= 
+    6e	= H
+    6f	= K
+    70	= Sze
+    71	= Cs
+    72	= P
+    73	= Szo
+    74	= V
+    75	= 
+    76	= január
+    77	= február
+    78	= március
+    79	= április
+    7a	= május
+    7b	= június
+    7c	= július
+    7d	= augusztus
+    7e	= szeptember
+    7f	= október
+    80	= november
+    81	= december
+    82	= 
+    83	= 
+    84	= Játéknapló
+    85	= Jegyzet
+    86	= Címjegyzék
+    87	= Teljes játékidő
+    88	= A mai teljesítményeid
+    89	= Egyebek
+    8a	= :
+    8b	= ← Mii csatolása
+    8c	= Jegyzet írása
+    8d	= Üzenet küldése\n
+	+ xxxxxxxxxx számára.
+    8e	= Üzenet írása
+    8f	= Üzenet küldése...
+    90	=   elküldött üzenet
+    91	= és
+    92	= további
+    93	= A Wii üzenőfal megtelt.\n
+	+ A régebbi üzenetek törölve lesznek.
+    94	= Törlés...\n
+	+ Ne kapcsold ki a konzolt!
+    95	= A törlés befejeződött.
+    96	= A régi üzenőfaladatok\n
+	+ áthelyezhetők egy SD kártyára.\n
+	+ Helyezz be egy SD kártyát!
+    97	= Egy SD kártyás művelet\n
+	+ meghiúsult.
+    98	= A Wii üzenőfal adatai\n
+	+ az SD kártyára lettek\n
+	+ áthelyezve. Az SD kártya\n
+	+ megtelt.
+    99	= Az adatok törlése meghiúsult.\n
+	+ A Wii belső tárhelye sérült.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com honlapot!
+    9a	= A Wii belső tárhelye megtelt.\n
+	+ A konzol adatait az Adatkezelőben\n
+	+ kezelheted.
+    9b	= Az adatok törlése meghiúsult.\n
+	+ A Wii belső tárhelye sérült.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com honlapot!
+    9c	=   szabad blokk
+    9d	= Isten hozott az SD kártya-menüben!\n
+	+ \n
+	+ Az itt tárolt csatornákat a\n
+	+ Wii belső tárhelyének átmeneti\n
+	+ használatbavételével indíthatod el.
+    9e	= Játékmentések\n
+	+ \n
+	+ Játékmentéseket nem lehet\n
+	+ közvetlenül az SD kártyáról\n
+	+ betölteni. Ezeket tartósan át kell\n
+	+ helyezni a belső tárhelyre.
+    9f	= Figyelem!\n
+	+ \n
+	+ Ha ezt az ikont látod, akkor ne\n
+	+ távoítsd el az SD kártyát vagy\n
+	+ kapcsold ki a konzolt!
+    a0	= SD kártya-menü
+    a1	= SD kártya-menü
+    a2	= SD kártya-menü
+    a3	= Következő
+    a4	= Bezárás
+    a5	= Előző
+    a6	= Súgó
+    a7	= Áthelyezés
+    a8	= Wii menü
+    a9	= Az SD kártya-foglalat üres.
+    aa	= SD kártya tartalmának\n
+	+ betöltése folyamatban...
+    ab	= Az SD kártya-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    ac	= Biztosan el akarod indítani\n
+	+ ezt a csatornát?
+    ad	= Csatorna indítása...
+    ae	= Az indítás meghiúsult.
+    af	= Ez a csatorna nem használható\n
+	+ ezen a Wii-konzolon.
+    b0	= Ezt a csatornát jelenleg nem\n
+	+ indíthatod el, mert nincs elég\n
+	+ szabad hely a Wii belső tárhelyén.
+    b1	= Adatok áthelyezése\n
+	+ az SD kártyára...
+    b2	= Másolás
+    b3	= Szeretnéd bezárni az\n
+	+ SD kártya-menüt ésmegnyitni az Adatkezelőt?\n
+	+ \n
+	+ Ez a csatorna **** szabad blokkot\n
+	+ igényel a belső tárhelyen.
+    b4	= A csatornák automatikus kezelése\n
+	+ jelenleg nem lehetséges.\n
+	+ A folytatáshoz szabadíts fel legalább\n
+	+ **** blokknyi helyet a Wii belső tárhelyén!
+    b5	= Nincs elég szabad hely\n
+	+ az SD kártyán.\n
+	+ \n
+	+ A folytatáshoz szabadíts fel\n
+	+ elegendő helyet!
+    b6	= Válaszd ki a az SD kártyára\n
+	+ áthelyezendő csatornák jellemzőit!
+    b7	= Régen használt
+    b8	= A Wii menün jobbra elhelyezkedő
+    b9	= Sok helyet foglaló
+    ba	= Kevés helyet foglaló
+    bb	= Automatikus kezelés
+    bc	= Adatkezelő használata
+    bd	= Törlés
+    be	= Az alábbi csatornák megfelelnek a\n
+	+ feltételeknek. Szeretnéd őket\n
+	+ áthelyezni az SD kártyára?
+    bf	= Az SD kártya zárolva van.\n
+	+ Az adatok módosításához\n
+	+ oldd fel a zárolást!
+    c0	= Továbbra sincs elegendő hely a\n
+	+ Wii belső tárhelyén.\n
+	+ További adatkezelést az\n
+	+ Adatkezelőben végezhetsz.
+    c1	= Túl sok csatorna van az SD kártyára\n
+	+ helyezve, ezért nem lehet mindet\n
+	+ megjeleníteni.
+    c2	= Az SD kártyát használat előtt\n
+	+ formázni kell.
+    c3	= Egy SD kártyás művelet\n
+	+ meghiúsult.
+    c4	= Tovább
+    c5	= Az áthelyezés\n
+	+ befejeződött.
+    c6	= Az SD kártya írásvédett.\n
+	+ A csatornák sorrendje\n
+	+ nem változtatható meg.
+    c7	= Ez a csatorna nem indítható el,\n
+	+ mert elérhető egy újabb verzió.
+    c8	= Folytatás
+    c9	= SD kártya-menü\n
+	+ \n
+	+ Az itt tárolt csatornákat a\n
+	+ Wii belső tárhelyének átmeneti\n
+	+ használatbavételével indíthatod el.
+    ca	= \n
+	+ Ha a jövőben ismét szeretnéd\n
+	+ megtekinteni ezt az információt,\n
+	+ nyomd meg az alábbi gombot!
+    cb	= (A kékkel kiemelt csatornák a belső tárhelyen\n
+	+ lévő változatukkal lesznek kicserélve.)
+    cc	= Keresés...
+    cd	= Ezeket az adatokat\n
+	+ nem lehet áthelyezni.
+    ce	= Ezeket az adatokat nem lehet áthelyezni,\n
+	+ mert az A memóriakártya-foglalat üres.
+    cf	= Ezeket az adatokat nem lehet áthelyezni,\n
+	+ mert a B memóriakártya-foglalat üres.
+    d0	= Az A-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    d1	= A B-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    d2	= Az A-foglalatba helyezett memóriakártya\n
+	+ nem használható ezzel a menüvel.
+    d3	= A B-foglalatba helyezett memóriakártya\n
+	+ nem használható ezzel a menüvel.
+    d4	= Két különböző típusú memóriakártya\n
+	+ között nem lehet adatokat áthelyezni.
+    d5	= Ez a memóriakártya már tartalmazza\n
+	+ az áthelyezendő adatokat.
+    d6	= A memóriakártya megtelt vagy\n
+	+ túl sok fájlt tartalmaz.
+    d7	= Lehetséges, hogy az\n
+	+ áthelyezés meghiúsult.
+    d8	= Az áthelyezés\n
+	+ sikeresen befejeződött.
+    d9	= Ezeket az adatokat\n
+	+ nem lehet lemásolni.
+    da	= Ezeket az adatokat nem lehet lemásolni,\n
+	+ mert az A memóriakártya-foglalat üres.
+    db	= Ezeket az adatokat nem lehet lemásolni,\n
+	+ mert a B memóriakártya-foglalat üres.
+    dc	= Az A-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    dd	= A B-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    de	= Az A-foglalatba helyezett memóriakártya\n
+	+ nem használható ezzel a menüvel.
+    df	= A B-foglalatba helyezett memóriakártya\n
+	+ nem használható ezzel a menüvel.
+    e0	= Két különböző típusú memóriakártya\n
+	+ között nem lehet adatokat másolni.
+    e1	= Ez a memóriakártya már tartalmazza\n
+	+ a másolandó adatokat.
+    e2	= A memóriakártya megtelt vagy\n
+	+ túl sok fájlt tartalmaz.
+    e3	= Lehetséges, hogy a\n
+	+ másolás meghiúsult.
+    e4	= Az adatok törlése\n
+	+ sikeresen befejeződött.
+    e5	= Lehetséges, hogy a\n
+	+ törlés meghiúsult.
+    e6	= Az A-foglalat üres.
+    e7	= A B-foglalat üres.
+    e8	= Az A-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    e9	= A B-foglalatba\n
+	+ helyezett eszköz\n
+	+ nem használható.
+    ea	= Az A-foglalatba helyezett memóriakártya\n
+	+ nem használható ezzel a menüvel.
+    eb	= A B-foglalatba helyezett memóriakártya\n
+	+ nem használható ezzel a menüvel.
+    ec	= Az A-foglalatba helyezett\n
+	+ memóriakártyát használat előtt\n
+	+ formázni kell. Szeretnéd ezt\n
+	+ most megtenni?
+    ed	= A B-foglalatba helyezett\n
+	+ memóriakártyát használat előtt\n
+	+ formázni kell. Szeretnéd ezt\n
+	+ most megtenni?
+    ee	= A formázás minden adatot törölni fog\n
+	+ a memóriakártyáról. Biztos vagy benne?
+    ef	= A formázás minden adatot törölni fog\n
+	+ a memóriakártyáról. Biztos vagy benne?
+    f0	= A formázás\n
+	+ sikeresen befejeződött.
+    f1	= Lehetséges, hogy a\n
+	+ formázás meghiúsult.
+    f2	= 
+    f3	= Szeretnéd ezeket az adatokat\n
+	+ az A-foglalatba helyezett\n
+	+ memóriakártyára áthelyezni?
+    f4	= Szeretnéd ezeket az adatokat\n
+	+ az A-foglalatba helyezett\n
+	+ memóriakártyára másolni?
+    f5	= Szeretnéd ezeket az adatokat\n
+	+ a B-foglalatba helyezett\n
+	+ memóriakártyára áthelyezni?
+    f6	= Szeretnéd ezeket az adatokat\n
+	+ a B-foglalatba helyezett\n
+	+ memóriakártyára másolni?
+    f7	= Biztosan törölni szeretnéd\n
+	+ ezeket az adatokat?
+    f8	= Az adatok törlése\n
+	+ sikeresen befejeződött.
+    f9	= Másolás folyamatban...
+    fa	= Áthelyezés folyamatban...
+    fb	= Törlés folyamatban...
+    fc	= Vissza
+    fd	= Adatkezelő
+    fe	= Mentések
+    ff	= Csatornák
+   100	= Wii
+   101	= Nintendo\n
+	+ GameCube
+   102	= Másolás
+   103	= Áthelyezés
+   104	= Törlés
+   105	= Biztosan az SD kártyára\n
+	+ akarod másolni\n
+	+ ezeket az adatokat?
+   106	= Másolás folyamatban...\n
+	+ Ne távolítsd el az SD kártyát\n
+	+ vagy kapcsold ki a konzolt!
+   107	= Az adatok másolása\n
+	+ sikeresen befejeződött.
+   108	= Az SD kártya megtelt,\n
+	+ ezért az adatokat nem lehet\n
+	+ lemásolni.
+   109	= Az adatok másolása\n
+	+ meghiúsult. Ellenőrizd, hogy\n
+	+ az SD kártya működőképes-e!
+   10a	= Az SD kártya zárolva van.\n
+	+ Az adatok módosításához\n
+	+ oldd fel a zárolást!
+   10b	= Biztosan át akarod helyezni\n
+	+ az SD kártyára\n
+	+ ezeket az adatokat?
+   10c	= Áthelyezés folyamatban...\n
+	+ Ne távolítsd el az SD kártyát\n
+	+ vagy kapcsold ki a konzolt!
+   10d	= Az adatok áthelyezése\n
+	+ sikeresen befejeződött.
+   10e	= Az SD kártya megtelt,\n
+	+ ezért az adatokat nem lehet\n
+	+ áthelyezni.
+   10f	= Az adatok áthelyezése\n
+	+ meghiúsult. Ellenőrizd, hogy\n
+	+ az SD kártya működőképes-e!
+   110	= Biztosan a belső tárhelyre\n
+	+ akarod másolni\n
+	+ ezeket az adatokat?
+   111	= Másolás folyamatban...\n
+	+ Ne távolítsd el az SD kártyát\n
+	+ vagy kapcsold ki a konzolt!
+   112	= Nincs elég szabad hely a\n
+	+ belső tárhelyen.
+   113	= Biztosan át akarod helyezni\n
+	+ a belső tárhelyre\n
+	+ ezeket az adatokat?
+   114	= Áthelyezés folyamatban...\n
+	+ Ne távolítsd el az SD kártyát\n
+	+ vagy kapcsold ki a konzolt!
+   115	= A belső tárhely megtelt,\n
+	+ ezért az adatokat nem lehet\n
+	+ áthelyezni.
+   116	= Nincs elég szabad hely az\n
+	+ SD kártyán.
+   117	= Az adatok sérültek\n
+	+ és nem olvashatóak.
+   118	= GB
+   119	= MB
+   11a	= KB
+   11b	= Nem minden adatot lehet az\n
+	+ SD kártyára másolni. Szeretnéd\n
+	+ folytatni a műveletet?
+   11c	= Ezeket az adatokat\n
+	+ nem lehet lemásolni.
+   11d	= Mivel az adatok egy részét nem lehet\n
+	+ lemásolni, a törlésükkel véglegesen\n
+	+ el fognak veszni. Biztosan törölni\n
+	+ szeretnéd ezeket az adatokat?
+   11e	= Ezt a csatornát nem lehet\n
+	+ lemásolni vagy kitörölni.
+   11f	= Ez az SD kártya már tartalmazza\n
+	+ ezeket az adatokat.\n
+	+ Szeretnéd felülírni a létező adatokat?
+   120	= A belső tárhely már tartalmazza\n
+	+ ezeket az adatokat.\n
+	+ Szeretnéd felülírni a létező adatokat?
+   121	= Az SD kártya-foglalat üres.
+   122	= Egy SD kártyás műveletet meghiúsult.
+   123	= Bizonyos adatokat nem lehet\n
+	+ lemásolni. A részletekért\n
+	+ olvasd el a játék kézikönyvét!
+   124	= A mentés lemásolásához először\n
+	+ játszanod kell a játékkal ezen\n
+	+ a Wii-konzolon.
+   125	= Ez a csatorna nem másolható le, mert egy\n
+	+ újabb verzió már telepítve van a\n
+	+ belső tárhelyre.
+   126	= Nincs elegendő szabad blokk, szabad fájl\n
+	+ vagy szabad csatorna a Wii belső tárhelyén.
+   127	= Ezek az adatok már léteznek\n
+	+ az SD kártyán.
+   128	= Ezek az adatok már léteznek\n
+	+ a belső tárhelyen.
+   129	= Ez a fájlnév foglalt.
+   12a	= Az adatok másolása sikeresen befejeződött.\n
+	+ Olyan tartalom is van a lemásolt adatok\n
+	+ között, amelyet csak ezen a konzolon lehet\n
+	+ használni. A részletekért olvasd el\n
+	+ a játék kézikönyvét!
+   12b	= Az adatok másolása sikeresen befejeződött.\n
+	+ Az adatok egy része nem másolható\n
+	+ SD kártyára. A részletekért olvasd el\n
+	+ a játék kézikönyvét!
+   12c	= Ez a csatornát nem lehet\n
+	+ erre a Wii-konzolra másolni.
+   12d	= Az adatok másolása sikeresen befejeződött.\n
+	+ Ezeket az adatokat nem lehet más Wii-konzolon\n
+	+ használni. A részletekért olvasd el\n
+	+ a használati utasítást!
+   12e	= Ezeket az adatokat nem lehet\n
+	+ erre a Wii-konzolra másolni.
+   12f	= SD kártya-menü adatok
+   130	= Ez a csatornát nem lehet\n
+	+ erre a Wii-konzolra másolni.
+   131	= Ezt a fájlt nem lehet áthelyezni,\n
+	+ de le lehet másolni.
+   132	= Az adatok áthelyezése sikeresen\n
+	+ befejeződött. Olyan tartalom is van a\n
+	+ lemásolt adatok között, amelyet csak\n
+	+ ezen a konzolon lehet használni. A\n
+	+ részletekért olvasd el a játék kézikönyvét!
+   133	= Az adatok egy része\n
+	+ nem áthelyezhető. A részletekért\n
+	+ olvasd el a játék kézikönyvét!
+   134	= Az adatok áthelyezése sikeresen\n
+	+ befejeződött. Ezeket az adatokat\n
+	+ nem lehet más Wii-konzolon használni.\n
+	+ A részletekért olvasd el a\n
+	+ játék kézikönyvét!
+   135	= Ezeket az adatokat nem lehet\n
+	+ erre a Wii-konzolra áthelyezni.
+   136	= A mentés áthelyezéséhez először\n
+	+ játszanod kell a játékkal ezen\n
+	+ a Wii-konzolon.
+   137	= Ezeket az adatokat nem lehet lemásolni,\n
+	+ mert az adatok egy része nem lemásolható.
+   138	= Ez a csatorna nem másolható le,\n
+	+ mert elérhető egy újabb verzió.
+   139	= Ez a csatorna nem helyezhető át,\n
+	+ mert elérhető egy újabb verzió.
+   13a	= Törlés folyamatban...\n
+	+ Ne távolítsd el az SD kártyát\n
+	+ vagy kapcsold ki a konzolt!
+   13b	= Vissza
+   13c	= Wii-beállítások
+   13d	= Wii
+   13e	= SD kártya
+   13f	= A-foglalat
+   140	= B-foglalat
+   141	= Igen
+   142	= Nem
+   143	= Internetkapcsolat szükséges.\n
+	+ \n
+	+ Szeretnéd most felállítani\n
+	+ az internetkapcsolatot?
+   144	= Az internetes üzenetküldéshez\n
+	+ fel kel állítanod az\n
+	+ internetkapcsolatot.
+   145	= Egy Wii-barát regisztrálásához\n
+	+ fel kel állítanod az\n
+	+ internetkapcsolatot.
+   146	= Beállítások
+   147	= Ezt a funckiót a\n
+	+ szülői felügyeleti\n
+	+ beálítások korlátozzák.
+   148	= Add meg a PIN-kódot!
+   149	= A korlátozások ideiglenesen\n
+	+ feloldásra kerültek. A korlátozások\n
+	+ ismét érvénybe fognak lépni a\n
+	+ Wii menübe való visszatérés után.
+   14a	= A korlátozások ideiglenesen\n
+	+ feloldásra kerültek. A korlátozások\n
+	+ ismét érvénybe fognak lépni a\n
+	+ művelet befejezése után.
+   14b	= A PIN-kód helytelen.
+   14c	= Ezt a funckiót a\n
+	+ szülői felügyeleti\n
+	+ beálítások korlátozzák.\n
+	+ Ellenőrizd a Wii-beállításokat!
+   14d	= Add meg az IP-címet!
+   14e	= Add meg az elsődleges DNS-címet!
+   14f	= Add meg a másodlagos DNS-címet!
+   150	= Add meg az alhálózati maszkot!
+   151	= Add meg az átjárót!
+   152	= Add meg a hálózat nevét!
+   153	= Add meg a hálózat kulcsát!
+   154	= Add meg a proxykiszolgáló nevét!
+   155	= Add meg a port számát!
+   156	= Add meg a felhasználónevet!
+   157	= Add meg a jelszót!
+   158	= Add meg a maximális átviteli egységet!
+   159	= Add meg a PIN-kódot!
+   15a	= Add meg a titkos kérdés válaszát!
+   15b	= Add meg a mesterkulcsot!
+   15c	= Add meg a Wii becenevét!
+   15d	= Add meg az email-címet!
+   15e	= Add meg a becenevet!
+   15f	= A PIN-kód és a titkos kérdés válasza\n
+	+ hiányában nem lehet eltávolítani a\n
+	+ szülői felügyeleti korlátozásokat.
+   160	= A PIN-kód és a titkos kérdés válasza\n
+	+ hiányában nem lehet eltávolítani a\n
+	+ szülői felügyeleti korlátozásokat.
+   161	= A csatlakozási próba\n
+	+ sikeresen befejeződött. A\n
+	+ konzol most automatikusan\n
+	+ frissíteni fog.
+   162	= Frissítés folyamatban...\n
+	+ Ne kapcsold ki a konzolt!\n
+	+ Légy türelemmel!
+   163	= A frissítés\n
+	+ sikeresen befejeződött.
+   164	= A frissítés\n
+	+ meghiúsult.
+   165	= A program használatához\n
+	+ frissítened kell a rendszert.\n
+	+ Az OK-gomb megnyomásával\n
+	+ elindíthatod a frissítést.
+   166	= A Nintendo internetszolgáltatásai\n
+	+ még nem aktívak. Nézz vissza később!
+   167	= Nincs elérhető frissítés,\n
+	+ mivel az a konzol már a\n
+	+ legfrissebb rendszert futtatja.
+   168	= Frissítés folyamatban. Ez bizonyos\n
+	+ esetekben akár xx percig is eltarthat.\n
+	+ Ne kapcsold ki a konzolt!
+   169	= A rendszer és a csatornák\n
+	+ automatikusan frissíteni fognak.
+   16a	= A rendszerfrissítés sikeresen\n
+	+ befejeződött. Ha szeretnél\n
+	+ szülői felügyeletet felállítani,\n
+	+ azt a beállításokban megteheted.
+   16b	= Szeretnél csatlakozni az\n
+	+ internetre és elvégezni egy\n
+	+ rendszerfrissítést?
+   16c	= A Wii rendszerfrissítéshez\n
+	+ internetkapcsolat szükséges.\n
+	+ Ezt a beállításokban\n
+	+ állíthatod fel.
+   16d	= A csatlakozási próba\n
+	+ sikeresen befejeződött.\n
+	+ Szeretnél elvégezni egy\n
+	+ rendszerfrissítést?
+   16e	= Szeretnéd a Wii Áruházcsatornát\n
+	+ és a WiiConnect24-szolgáltatást\n
+	+ használni?
+   16f	= Biztos vagy benne?
+   170	= A WiiConnect24 és a Wii Áruházcsatorna\n
+	+ használatához el kell fogadnod a\n
+	+ felhasználási feltételeket az\n
+	+ internetkapcsolat felállítása után.
+   171	= Újra
+   172	= A WiiConnect24 és a Wii Áruházcsatorna\n
+	+ használatához el kell fogadnod a\n
+	+ felhasználási feltételeket.
+   173	= Ha szeretnél\n
+	+ szülői felügyeletet felállítani,\n
+	+ azt a Wii menün belül, a\n
+	+ Wii-beállításokban megteheted.\n
+   174	= A WiiConnect24 és a Wii Áruházcsatorna\n
+	+ használatához el kell fogadnod a\n
+	+ felhasználási feltételeket az\n
+	+ internetkapcsolat felállítása után.
+   175	= A WiiConnect24 és a Wii Áruházcsatorna\n
+	+ használatához el kell fogadnod a\n
+	+ felhasználási feltételeket.
+   176	= FONTOS INFORMÁCIÓ:  Ez a frissítés érzékelni fog és\n
+	+ el fog távolítani bármiféle engedély nélküli módosítást.\n
+	+ Ha a konzolod rendelkezik ilyen módosításokkal, akkor a\n
+	+ frissítés telepítésével elfogadod a konzol lehetséges\n
+	+ azonnali vagy késleltetett üzemképtelenné válását.\n
+	+ Ha el akarod utasítani ezt a frissítést, akkor\n
+	+ 4 másodpercig tartsd lenyomva a POWER-gombot!
+   177	= FONTOS INFORMÁCIÓ:  Ez a frissítés érzékelni fog és\n
+	+ el fog távolítani bármiféle engedély nélküli módosítást.\n
+	+ Ha a konzolod rendelkezik ilyen módosításokkal, akkor a\n
+	+ frissítés telepítésével elfogadod a konzol lehetséges\n
+	+ azonnali vagy késleltetett üzemképtelenné válását.\n
+	+ Ha el akarod utasítani ezt a frissítést, akkor\n
+	+ 4 másodpercig tartsd lenyomva a POWER-gombot!
+   178	= Elfogadás
+   179	= Elfogadás
+   17a	= FONTOS INFORMÁCIÓ:  Ez a frissítés érzékelni fog és\n
+	+ el fog távolítani bármiféle engedély nélküli módosítást.\n
+	+ Ha a konzolod rendelkezik ilyen módosításokkal, akkor a\n
+	+ frissítés telepítésével elfogadod a konzol lehetséges\n
+	+ azonnali vagy késleltetett üzemképtelenné válását.\n
+	+ A frissítés szükséges bizonyos játékok futtatásához.\n
+	+ Ha el akarod utasítani ezt a frissítést, akkor\n
+	+ 4 másodpercig tartsd lenyomva a POWER-gombot!
+   17b	= A program használatához egy\n
+	+ rendszerfrissítés szükséges. A\n
+	+ frissítés megkezdéséhez nyomd meg az\n
+	+ OK-gombot!\n
+	+ Ez a frissítés új csatornákkal fogja\n
+	+ bővíteni a Wii menüt.
+   17c	= Nincs regisztrált Mii.\n
+	+ Miiket a Mii Csatornán\n
+	+ hozhatsz létre.
+   17d	= A Mii Csatorna adatainak\n
+	+ betöltése meghiúsult.\n
+	+ Ellenőrizd a Mii Csatornát!
+   17e	= A WiiConnect24 nincs bekapcsolva.\n
+	+ Ellenőrizd a WiiConnect24 beállításait\n
+	+ a Wii-beállításokban!
+   17f	= A rendszerfrissítéshez\n
+	+ internetkapcsolat szükséges.
+   180	= A funkció használatához\n
+	+ rendszerfrissítés szükséges.
+   181	= Wii-barátregisztrációs email
+   182	= Egy Wii-konzol tulajdonosa Wii-barátként kíván\n
+	+ regisztrálni, hogy emaileket küldhessen és fogadhasson Veled.\n
+	+ Ez a személy a(z) w1234567890123456@wii.com
+	+  <mailto:w1234567890123456@wii.com> Wii email-címmel\n
+	+ rendelkezik.\n
+	+ A kérés elfogadásához válaszolj erre az emailre! Ezek után\n
+	+ képes leszel a(z) w1234567890123456@wii.com
+	+  <mailto:w1234567890123456@wii.com> Wii email-címmel\n
+	+ való üzenetváltásra.\n
+	+ Ha ez a Wii-konzol és a tulajdonosa nem ismerős a számodra,\n
+	+ akkor válasz nélkül töröld ezt az üzenetet!
+   183	= Wii-üzenet
+   184	= 
+   185	= 
+   186	= 
+   187	= 
+   188	= 
+   189	= 
+   18a	= 
+   18b	= 
+   18c	= 
+   18d	= 
+   18e	= 
+   18f	= 
+   190	= Hibakód:\040
+   191	= A kiszolgáló nem elérhető.\n
+	+ Próbáld újra később!További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   192	= Egy internethiba miatt a\n
+	+ rendszerfrissítés meghiúsult.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   193	= Nincs elég szabad hely a belső\n
+	+ tárhelyen, ezért a rendszerfrissítés\n
+	+ meghiúsult. További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   194	= Hiba történt. A rendszerfrissítés\n
+	+ meghiúsult. További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   195	= A kapcsolat megszakadt.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   196	= Nincs beállítva az internetkapcsolat.\n
+	+ A beállításhoz látogasd meg az\n
+	+ Internetbeállításokat a Wii-beállításokon\n
+	+ belül! További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   197	= Az internetbeállítások helytelenek.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   198	= A LAN-átalakító nincs helyesen\n
+	+ csatlakoztatva. További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   199	= A hozzáférési pont nem található.\n
+	+ Ellenőrizd a hálózat nevét, majd próbáld\n
+	+ újra! További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   19a	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért keresd fel\n
+	+ a support.nintendo.com címet!
+   19b	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért olvasd el\n
+	+ a használati utasítást vagy keresd fel\n
+	+ a support.nintendo.com címet!
+   19c	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért olvasd el\n
+	+ a használati utasítást vagy keresd fel\n
+	+ a support.nintendo.com címet!
+   19d	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért olvasd el\n
+	+ a használati utasítást vagy keresd fel\n
+	+ a support.nintendo.com címet!
+   19e	= A kiszolgáló nem található.\n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra! További információért\n
+	+ olvasd el a használati utasítást vagy\n
+	+ keresd fel a support.nintendo.com címet!
+   19f	= A proxykiszolgáló nem elérhető.\n
+	+ Próbáld újra később!További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1a0	= A csatlakozás meghiúsult. A\n
+	+ felhasználónév és jelszó helytelen.\n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1a1	= A kiszolgáló nem található.\n
+	+ Próbáld újra később! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1a2	= A csatlakozás meghiúsult, mert a\n
+	+ hálózaton egy másik eszköz ugyanezt\n
+	+ az IP-címet használja.Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra! További információért\n
+	+ olvasd el a használati utasítást vagy\n
+	+ keresd fel a support.nintendo.com címet!
+   1a3	= Adatátviteli hiba történt.\n
+	+ Megszakadt az internetkapcsolat.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1a4	= A Nintendo Wi-Fi USB Connector\n
+	+ nem található. Ellenőrizd, hogy az\n
+	+ eszköz működik-e, majd próbáld újra!További információért
+	+  keresd fel a\n
+	+ support.nintendo.com címet!
+   1a5	= A kiszolgáló nem található.\n
+	+ Próbáld újra később! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1a6	= A rendszerfrissítés egy\n
+	+ internethiba miatt meghiúsult.Próbáld újra később! További
+	+  információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1a7	= Nincs elég szabad hely a\n
+	+ belső tárhelyen, ezért a\n
+	+ rendszerfrissítés meghiúsult.További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1a8	= Hiba történt, ezért a\n
+	+ rendszerfrissítés meghiúsult.További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1a9	= A csatlakozás meghiúsult.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1aa	= Nincs beállítva az internetkapcsolat.\n
+	+ A beállításhoz látogasd meg az\n
+	+ Internetbeállításokat a Wii-beállításokon\n
+	+ belül! További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1ab	= Az internetbeállítások helytelenek.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1ac	= A LAN-átalakító nincs helyesen\n
+	+ csatlakoztatva. További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1ad	= A hozzáférési pont nem található.\n
+	+ Ellenőrizd a hálózat nevét, majd próbáld\n
+	+ újra! További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1ae	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért keresd fel\n
+	+ a support.nintendo.com címet!
+   1af	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért keresd fel\n
+	+ a support.nintendo.com címet!
+   1b0	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért olvasd el\n
+	+ a használati utasítást vagy keresd fel\n
+	+ a support.nintendo.com címet!
+   1b1	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra! További információért olvasd el\n
+	+ a használati utasítást vagy keresd fel\n
+	+ a support.nintendo.com címet!
+   1b2	= A kiszolgáló nem található.\n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1b3	= A proxykiszolgáló nem elérhető.\n
+	+ Próbáld újra később!További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1b4	= A csatlakozás meghiúsult. A\n
+	+ felhasználónév és jelszó helytelen.\n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1b5	= A kiszolgáló nem található.\n
+	+ Próbáld újra később! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1b6	= A kiszolgáló nem található.\n
+	+ Próbáld újra később! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1b7	= Adatátviteli hiba történt.\n
+	+ Megszakadt az internetkapcsolat.\n
+	+ További információért keresd fel a\n
+	+ support.nintendo.com címet!
+   1b8	= A Nintendo Wi-Fi USB Connector\n
+	+ nem található. Ellenőrizd, hogy az\n
+	+ eszköz működik-e, majd próbáld újra!További információért
+	+  keresd fel a\n
+	+ support.nintendo.com címet!
+   1b9	= Wii támogatási kód:\040
+   1ba	= Adj meg egy 4-jegyű PIN-kódot!
+   1bb	= A titkos kérdés válasza legalább\n
+	+ 6 karakter hosszú kell, hogy legyen.
+   1bc	= Adj meg egy 5-jegyű mesterkulcsot!
+   1bd	= Ha a szélesvásznú (16:9) megjelenítési\n
+	+ módot választod ki a Wii-konzolon, akkor\n
+	+ a TV-n is szélesvásznú megjelenítést kell\n
+	+ beállítani!
+   1be	= A megadott információ helytelen.\n
+	+ Ellenőrizd a megadott információt,\n
+	+ majd próbáld újra!
+   1bf	= Mutass a TV-re a Wii Remote-tal és a(z)\n
+	+  \x{e045} és \x{e046} gombokkal úgy állítsd be\n
+	+ az érzékenységet, hogy csak két pislákoló fény\n
+	+ látsszon!
+   1c0	= Add meg a Wii-konzol becenevét!
+   1c1	= Ne csak szóközöket adj meg!
+   1c2	= Az AOSS-beállítás meghiúsult.\n
+	+ Vidd közelebb a konzolt a hozzáférési\n
+	+ ponthoz és ellenőrizd, hogy be van-e\n
+	+ kapcsolva! További információért\n
+	+ keresd fel a support.nintendo.com címet!
+   1c3	= 
+   1c4	= A szülői felügyeleti- és\n
+	+ WiiConnect24-beállításokat ismét\n
+	+ be kell állítani.
+   1c5	= Hiba történt a\n
+	+ WiiConnect24-szolgáltatással.\n
+	+ Próbáld újra később!
+   1c6	= Hiba történt a\n
+	+ WiiConnect24-szolgáltatással.\n
+	+ Próbáld újra később!
+   1c7	= Ezt a műveletet jelenleg\n
+	+ nem lehet végrehajtani.\n
+	+ Próbáld újra később!
+   1c8	= Ez a Wii-barát már nem szerepel\n
+	+ a címjegyzékedben, ezért\n
+	+ nem válaszolhatsz erre az üzenetre.
+   1c9	= Ha a szabványos (16:9) megjelenítési\n
+	+ módot választod ki a Wii-konzolon, akkor\n
+	+ a TV-n is szabványos megjelenítést kell\n
+	+ beállítani!
+
