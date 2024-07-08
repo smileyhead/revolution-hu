@@ -178,7 +178,7 @@
 	+ adatokat az Adatkezelőben!
 18aba00 [,45] = A Mii-adatok betöltése meghiúsult.\n
 	+ \n
-	+ Nyisd meg a Mii Csatornát és\n
+	+ Nyisd meg a Miicsatornát és\n
 	+ ellenőrizd az adatok épségét!
 18e7000 [,45] = A Wii-címadatok\n
 	+ PIN-kóddal védettek.\n
@@ -254,7 +254,7 @@
 30d9000 [,45] = Nem található Mii.\n
 	+ \n
 	+ Hozz létre legalább egy Miit a\n
-	+ Mii Csatornán!
+	+ Miicsatornán!
 30d9a00	= Mutass a Wii Remote-tal a szobára!\n
 	+ Nyisd meg a menüt és próbáld ki a\n
 	+ lehetőségeket az \x{e042} gombbal!
@@ -1120,7 +1120,7 @@ c3e1000	= \040
 c3e1001 [,45] =  regisztrálva.\n
 	+ \n
 	+ Ha törlöd ezt a Miit a\n
-	+ Mii Csatornáról, akkor a\n
+	+ Miicsatornáról, akkor a\n
 	+ Wii Roomból is törölve lesz,\n
 	+ ezért légy óvatos!
 c3e6a00	= Törlés\040
