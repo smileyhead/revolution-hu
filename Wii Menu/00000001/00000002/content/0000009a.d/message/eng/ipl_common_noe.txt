@@ -798,11 +798,11 @@
 	+ Ez a frissítés új csatornákkal fogja\n
 	+ bővíteni a Wii menüt.
    17c	= Nincs regisztrált Mii.\n
-	+ Miiket a Mii Csatornán\n
+	+ Miiket a Miicsatornán\n
 	+ hozhatsz létre.
-   17d	= A Mii Csatorna adatainak\n
+   17d	= A Miicsatorna adatainak\n
 	+ betöltése meghiúsult.\n
-	+ Ellenőrizd a Mii Csatornát!
+	+ Ellenőrizd a Miicsatornát!
    17e	= A WiiConnect24 nincs bekapcsolva.\n
 	+ Ellenőrizd a WiiConnect24 beállításait\n
 	+ a Wii-beállításokban!
