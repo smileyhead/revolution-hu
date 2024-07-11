@@ -1,1 +1,1916 @@
+#BMG  <<<  The first 4 characters '#BMG' are the magic for a BMG text file.
+#     <<<  Don't remove them!
+#
+# Details about BMG text files are available in the Web:
+#  * Syntax and Semantics: https://szs.wiimm.de/doc/bmg/text
+#  * The BMG file format:  https://szs.wiimm.de/r/wiki/BMG
+#
+#
+#------------------------------------------------------------------------------
+# All parameters begin with '@'. Unknown parameters are ignored on scanning.
+
+# The endianness of binary files: 0=big endian (default), 1=little endian.
+# Little endian is only tested for encoding UTF-8 (need examples of analysis).
+@ENDIAN = 0
+
+# If 1, then enable legacy (GameCube) mode for old binary BMG files.
+# If enabled, ENCODING is always CP1252.
+@LEGACY = 0
+
+# Define encoding of BMG: 1=CP1252, 2=UTF-16/be, 3=Shift-JIS, 4=UTF-8
+@ENCODING = 2
+
+# Create »MID1« section: 0=off, 1=on
+@BMG-MID = 1
+
+# Size of each element of section 'INF1' (MKW=8).
+# This setting has impact to attributes and MKW features.
+@INF-SIZE = 0x0c
+
+# Default attribute values for this BMG (MKW=[1])
+@DEFAULT-ATTRIBS = [,5a,1,e0]
+
+# Use MKW specific color names: 0=off, 1=auto, 2=on
+@COLOR-NAMES = 1
+
+# Use MKW messages and track names: 0=off, 1=auto, 2=on
+@MKW-MESSAGES = 1
+
+#
+#------------------------------------------------------------------------------
+
+# This part defines values for unknown parameters of section headers.
+@UNKNOWN-INF32-0C =          0	# 32 bit value of section INF1 offset 0x0c
+@UNKNOWN-MID16-0A =        0x1	# 16 bit value of section MID1 offset 0x0a
+@UNKNOWN-MID32-0C =          0	# 32 bit value of section MID1 offset 0x0c
+
+#
+#------------------------------------------------------------------------------
+
+     0 [,64,3,e7] = 2008.01.15  NoE Patrick\n
+   100 [,64,3,e7] = 年月日
+  3c00 [,64,1,e0] = \z{c0a,30200000200}
+  3c01 [,4b,1,e0] = Nincs elég szabad hely a Wii belső\n
+	+ tárhelyén a Miiversenycsatorna adatainak\n
+	+ mentéséhez.\n
+	+ \n
+	+ Szabadíts fel \z{600,0} blokknyi szabad helyet az\n
+	+ adatok SD kártyára áthelyezésével vagy\n
+	+ törlésével az Adatkezelőben!
+  3c02 [,6e,1,b8/1] = Vissza a Wii menübe
+  3d00 [,64,1,e0] = \z{c0a,30200000200}
+  3d01 [,4b,1,e0] = Nincs elég szabad hely a Wii belső\n
+	+ tárhelyén a Miiversenycsatorna adatainak\n
+	+ mentéséhez.\n
+	+ \n
+	+ Szabadíts fel \z{600,0} blokknyi szabad helyet az\n
+	+ adatok SD kártyára áthelyezésével vagy\n
+	+ törlésével az Adatkezelőben!
+  3d02 [,6e,1,b8/1] = Vissza a Wii menübe
+  3e00 [,64,1,e0] = \z{c0a,30200000200}
+  3e01 [,4b,1,e0] = Nincs elég szabad hely a Wii belső\n
+	+ tárhelyén a Miiversenycsatorna üzenet-\n
+	+ szolgáltatásának igénybevételéhez.\n
+	+ \n
+	+ Szabadíts fel \z{600,0} blokknyi szabad helyet az\n
+	+ adatok SD kártyára áthelyezésével vagy\n
+	+ törlésével az Adatkezelőben!
+  3e02 [,6e,1,b8/1] = OK
+  3f00 [,64,1,e0] = \z{c0a,30200000200}
+  3f01 [,4b,1,e0] = Nincs elég szabad hely a Wii belső\n
+	+ tárhelyén a Miiversenycsatorna üzenet-\n
+	+ szolgáltatásának igénybevételéhez.\n
+	+ \n
+	+ Szabadíts fel \z{600,0} blokknyi szabad helyet az\n
+	+ adatok SD kártyára áthelyezésével vagy\n
+	+ törlésével az Adatkezelőben!
+  3f02 [,6e,1,b8/1] = OK
+  4600 [,64,1,e0] = \z{c0a,30200000200}
+  4601 [,50,1,e0] = Nincs elég szabad hely a Wii belső\n
+	+ tárhelyén a Miiversenycsatorna adatainak\n
+	+ mentéséhez.\n
+	+ \n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+  4602 [,6e,1,b8/1] = Vissza a Wii menübe
+  4700 [,64,1,e0] = \z{c0a,30200000200}
+  4701 [,50,1,e0] = Nincs elég szabad hely a Wii belső\n
+	+ tárhelyén a Miiversenycsatorna üzenet-\n
+	+ szolgáltatásának igénybevételéhez.\n
+	+ \n
+	+ Helyezz át adatokat az\n
+	+ SD kártyára vagy törölj\n
+	+ adatokat az Adatkezelőben!
+  4702 [,6e,1,b8/1] = OK
+  4800 [,64,1,e0] /
+  4801 [,50,1,e0] /
+  4802 [,6e,1,b8/1] /
+  4900 [,64,1,e0] /
+  4901 [,50,1,e0] /
+  4902 [,6e,1,b8/1] /
+  6400 [,64,1,e0] = \z{c0a,30200000200}
+  6401	= A Miiversenycsatorna\n
+	+ mentése sérült, ezért\n
+	+ törölni kell.
+  6402 [,6e,1,b8/1] = OK
+  6500 [,64,1,e0] = \z{c0a,30200000100}
+  6501	= A sérült adatok törlése\n
+	+ sikeresen befejeződött.\n
+	+ Most új mentés lesz\n
+	+ létrehozva.
+  6502 [,6e,1,b8/1] = OK
+  6600 [,64,1,e0] /
+  6601	/
+  6602 [,6e,1,b8/1] /
+  6700 [,64,1,e0] /
+  6701	/
+  6702 [,6e,1,b8/1] /
+  6800 [,64,1,e0] = \z{c0a,10200000200}
+  6801	= A Wii belső tárhelye sérült.\n
+	+ A hiba elhárításához\n
+	+ olvasd el a\n
+	+ használati utasítást!
+  6900 [,64,1,e0] = \z{c0a,30200000200}
+  6901	= A Wii belső tárhelyéről történő\n
+	+ írás vagy olvasás meghiúsult.
+	+ A hiba elhárításához\n
+	+ olvasd el a\n
+	+ használati utasítást!
+  6902 [,6e,1,b8/1] = OK
+  6a00 [,64,1,e0] /
+  6a01	/
+  6a02 [,6e,1,b8/1] /
+  6e00 [,64,1,e0] = \z{c0a,30200000200}
+  6e01	= Hiba történt a Wii belső tárhelyével,\n
+	+ ezért a WiiConnect24 nem használható.\n
+	+ Visszatérés a Wii menübe.\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  6e02 [,6e,1,b8/1] = OK
+  6f00 [,64,1,e0] = \z{c0a,30200000200}
+  6f01	= A WiiConnect24 használatához\n
+	+ rendszerfrissítés szükséges.
+	+ \n
+	+ Hibakód: \z{600,0}
+  6f02 [,6e,1,b8/1] = OK
+  7000 [,64,1,e0] = \z{c0a,30200000200}
+  7001	= Hiba történt, ezért\n
+	+ a WiiConnect24 nem használható.\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  7002 [,6e,1,b8/1] = OK
+  7100 [,64,1,e0] = \z{c0a,30200000200}
+  7101	= Adatátviteli hiba történt,\n
+	+ ezért a WiiConnect24 átmenetileg\n
+	+ nem elérhető. Próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  7102 [,6e,1,b8/1] = OK
+  7800 [,64,1,e0] = \z{c0a,30200000200}
+  7801	= A WiiConnect24 nincs bekapcsolva.\n
+	+ Ellenőrizd a WiiConnect24 beállításait\n
+	+ a Wii-beállításokban!
+	+ \n
+	+ Hibakód: \z{600,0}
+  7802 [,6e,1,b8/1] = OK
+  7900 [,64,1,e0] = \z{c0a,30200000200}
+  7901	= A kapcsolat megszakadt.\n
+	+ A WiiConnect24 nem elérhető.\n
+	+ Ellenőrizd az internetbeállításokat\n
+	+ a Wii-beállításokban!
+	+ \n
+	+ Hibakód: \z{600,0}
+  7902 [,6e,1,b8/1] = OK
+  7a00 [,64,1,e0] = \z{c0a,30200000200}
+  7a01	= Adatátviteli hiba történt,\n
+	+ ezért a WiiConnect24 átmenetileg\n
+	+ nem elérhető. Próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  7a02 [,6e,1,b8/1] = OK
+  7b00 [,64,1,e0] = \z{c0a,30200000200}
+  7b01	= Adatátviteli hiba történt,\n
+	+ ezért a WiiConnect24 átmenetileg\n
+	+ nem elérhető. Próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  7b02 [,6e,1,b8/1] = OK
+  7c00	= Még nem fogadtad el a\n
+	+ Wii Network felhasználási\n
+	+ feltételeit, ezért a\n
+	+ Miiversenycsatorna nem\n
+	+ használható. A csatorna\n
+	+ használatához el kell\n
+	+ fogadnod a feltételeket az\n
+	+ internetbeállításokban, a\n
+	+ Wii-beállítások alatt!
+  7d00 [,64,1,e0] = \z{c0a,30200000200}
+  7d01	= \z{600,0}
+  7d02 [,6e,1,b8/1] = Tovább
+  7e00 [,64,1,e0] = \z{c0a,30200000200}
+  7e01	= \z{600,0}
+  7e02 [,6e,1,b8/1] = Vissza a Wii menübe
+  9600 [,64,1,b8] = \z{c0a,40200000100}
+  9601	= A Miiversenycsatorna használatát\n
+	+ a szülői felügyeleti\n
+	+ beálítások korlátozzák.\n
+	+ \n
+	+ Add meg a PIN-kódot!
+  9602 [,6e,,b4/1] = PIN-kód megadása
+  9603 [,6e,,b4/1] = Wii menü
+  9700 [,64,1,e0] = \z{c0a,30200000000}
+  9701	= A korlátozások ideiglenesen\n
+	+ feloldásra kerültek. A korlátozások\n
+	+ ismét érvénybe fognak lépni a\n
+	+ Wii menübe való visszatérés után.
+  9702 [,6e,1,b8/1] = OK
+  9800 [,64,1,b8] = \z{c0a,20200000200}
+  9801	= A PIN-kód helytelen.
+  c800 [,64,1,90] = Miiversenycsatorna
+  c900 [,64,1,90] = 
+  fa00 [,64,1,e0] = \z{c0a,30200000100}
+  fa01	= A csatorna szolgáltatása\n
+	+ megszűnt.
+	+ \n
+	+ Köszönjük a részvételt!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  fa02 [,6e,1,b8/1] = Vissza a Wii menübe
+  fb00 [,64,1,b8] = \z{c0a,30200000100}
+  fb01	= Adatátviteli hiba történt,\n
+	+ ezért a WiiConnect24 átmenetileg\n
+	+ nem elérhető. Próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  fb02 [,6e,1,b8/1] = Vissza a Wii menübe
+  fc00 [,64,1,b8] = \z{c0a,30200000200}
+  fc01	= A Miiversenycsatornához frissítés\n
+	+ érhető el. Frissítsd a csatornát\n
+	+ a Wii Áruházcsatornából!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  fc02 [,6e,1,b8/1] = Vissza a Wii menübe
+  fd00 [,64,1,b8] = \z{c0a,30200000200}
+  fd01	= A Miiversenycsatorna jelenleg\n
+	+ nem elérhető.\n
+	+ \n
+	+ További információért keresd fel\n
+	+ az ügyfélszolgálatot!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  fd02 [,6e,1,b8/1] = Vissza a Wii menübe
+  fe00 [,64,1,b8] = \z{c0a,30200000200}
+  fe01	= Új kiszolgálói beállítások\n
+	+ léptek érvénybe. A konzol\n
+	+ most újra fog indulni.\n
+	+ \n
+	+ Hibakód: \z{600,0}
+  fe02 [,6e,1,b8/1] = OK
+  ff00 [,64,1,b8] /
+  ff01	/
+  ff02 [,6e,1,b8/1] /
+ 10000 [,64,1,b8] = \z{c0a,30200000200}
+ 10001	= A Miiversenycsatornához frissítés\n
+	+ érhető el. Frissítsd a csatornát\n
+	+ a Wii Áruházcsatornából!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 10002 [,6e,1,b8/1] = Vissza a Wii menübe
+ 10100 [,64,1,b8] = \z{c0a,30200000200}
+ 10101	= Ezt a Miit nem nevezheted be.
+ 10102 [,6e,1,b8/1] = OK
+ 10200 [,64,1,b8] = \z{c0a,30200000200}
+ 10201	= A Miiversenycsatorna nem használható.\n
+	+ Töröld a Miiversenycsatorna adatait\n
+	+ az Adatkezelőben, majd próbáld újra!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 10202 [,6e,1,b8/1] = Vissza a Wii menübe
+ 12c00 [,64,1,b8] = \z{c0a,40200000100}
+ 12c01	= Biztosan vissza akarsz térni\n
+     + a Wii menübe?
+ 12c02 [,6e,,b4/1] = Igen
+ 12c03 [,6e,,b4/1] = Nem
+ 12d00 [,64,1,b8] = \z{c0a,30200000200}
+ 12d01	= A Miiadatok betöltése meghiúsult.\n
+	+ Nyisd meg a Miicsatornát és\n
+	+ ellenőrizd az adatok épségét!
+ 12d02 [,6e,1,b8/1] = Vissza a Wii menübe
+ 12e00 [,64,1,b8] = \z{c0a,40200000100}
+ 12e01	= A Miiversenycsatorna és a\n
+	+ rendszer országbeállítása\n
+	+ nem egyezik.\n
+	+ Szeretnéd átállítani a\n
+	+ Miiversenycsatorna országát?\n
+	+ \n
+	+ (Ezzel alaphelyzetbe fog állni\n
+	+ a Miimestered.)
+ 12e02 [,6e,,b4/1] = Átállítás
+ 12e03 [,64,,b4/1] = Mégse
+ 12f00 [,64,1,b8] = \z{c0a,30200000100}
+ 12f01	= A Miiversenycsatorna a csatorna\n
+	+ beállított országához kapcsolódó\n
+	+ kiadását fogja használni, ami\n
+	+ meg lesz jelenítve. A konzol\n
+	+ országát a Wii-beállításokban\n
+	+ változtathatod meg.
+ 12f02 [,6e,1,b8/1] = OK
+ 13600 [,64,1,b8] = \z{c0a,30200000100}
+ 13601	= A Miiversenycsatorna ebben a\n
+	+ régióban nem elérhető.\n
+	+ \n
+	+ A kellemetlenségért\n
+	+ elnézést kérünk!
+ 13602 [,6e,1,b8/1] = Vissza a Wii menübe
+ 13700 [,64,1,b8] = \z{c0a,30200000100}
+ 13701	= A monogrambeállítások\n
+	+ megváltoztak.
+ 13702 [,6e,1,b8/1] = OK
+ 13800 [,64,1,b8] = \z{c0a,30200000100}
+ 13801	= A monogrambeállítások\n
+	+ megváltoztak. A Miik monogramjai\n
+	+ mostantól el lesznek rejtve.
+ 13802 [,6e,1,b8/1] = OK
+ 13900 [,64,1,b8] = \z{c0a,20200000100}
+ 13901	= Válaszd ki a versenytémák\n
+	+ nyelvét!
+ 13a00 [,64,1,b8] = \z{c0a,30200000200}
+ 13a01	= A korábban megadott Miimester\n
+	+ törölve lett a Miicsatornáról.\n
+	+ \n
+	+ Jelölj ki egy új Miimestert!
+ 13a02 [,6e,1,b8/1] = OK
+ 13b00 [,64,1,b8] = \z{c0a,30200000200}
+ 13b01	= A korábban megadott Miimester\n
+	+ módosítva lett a Miicsatornán.\n
+	+ \n
+	+ Jelölj ki egy új Miimestert!
+ 13b02 [,6e,1,b8/1] = OK
+ 13c00 [,64,1,b8] = \z{c0a,40200000000}
+ 13c01	= Szeretnél kijelölni\n
+	+ egy új Miimestert?
+ 13c02 [,6e,,b4/1] = Új Miimester
+ 13c03 [,6e,,b4/1] = Mii használata
+ 13d00 [,64,1,b8] = \z{c0a,30200000000}
+ 13d01	= Nem jelöltél ki új Miimestert.\n
+	+ Visszatérés a Wii menübe.
+ 13d02 [,6e,1,b8/1] = OK
+ 14000 [,64,1,b8] /
+ 14001	/
+ 14a00 [,64,1,b8] = \z{c0a,40200000100}
+ 14a01 [,50,1,e0] = Ha feliratkozol a\n
+	+ Miiversenycsatorna\n
+	+ üzenetszolgáltatására, akkor a\n
+	+ csatorna legfrissebb híreit a\n
+	+ Wii üzenőfalon olvashatod el.\n
+	+ Erről bármikor leiratkozhatsz.\n
+	+ \n
+	+ Szeretnél feliratkozni?
+ 14a02 [,6e,,b4/1] = Feliratkozás
+ 14a03 [,6e,,b4/1] = Elutasítás
+ 15400 [,64,1,b8] = \z{c0a,20200010000}
+ 15401	= \z{8ff,100}■ Üzenetszolgáltatás\z{8ff,0}\n
+	+ \n
+	+ Jelenleg fel vagy iratkozva\n
+	+ a Miiversenycsatorna\n
+	+ üzenetszolgáltatására.
+ 15500 [,64,1,b8] /
+ 15501 [,4b,2,8] = Válaszd ki az alábbi\n
+	+ lehetőségek egyikét!
+ 15502 [,50,1,e0/1] = Leiratkozás a Miiversenycsatorna\n
+	+ üzenetszolgáltatásáról
+ 15503 [,50,1,e0/1] = Leiratkozás az összes\n
+	+ üzenetszolgáltatásról
+ 15504 [,50,1,e0/1] = A Miiversenycsatorna üzenet-\n
+	+ szolgáltatásának további igénybevétele
+ 15600 [,64,1,b8] /
+ 15601	/
+ 15602 [,5a,,b4/1] /
+ 15603 [,5a,,b4/1] /
+ 15700 [,64,1,b8] = \z{c0a,20200010100}
+ 15701	= \z{8ff,100}■ Üzenetszolgáltatás\z{8ff,0}\n
+	+ \n
+	+ Ha feliratkozol a\n
+	+ Miiversenycsatorna\n
+	+ üzenetszolgáltatására, akkor a\n
+	+ csatorna legfrissebb híreit a\n
+	+ Wii üzenőfalon olvashatod el.\n
+	+ Erről bármikor leiratkozhatsz.
+ 15800 [,64,1,b8] = \z{c0a,40200000100}
+ 15801	= Szeretnél feliratkozni a Miiverseny-\n
+	+ csatorna üzenetszolgáltatására?
+ 15802 [,6e,,b4/1] = Feliratkozás
+ 15803 [,6e,,b4/1] = Elutasítás
+ 15900 [,64,1,b8] = \z{c0a,40200000100}
+ 15901	= Szeretnél leiratkozni a Miiverseny-\n
+	+ csatorna üzenetszolgáltatásáról?
+ 15902 [,6e,,b4/1] = Leiratkozás
+ 15903 [,65,,b4/1] = Mégse
+ 15a00 [,64,1,b8] = \z{c0a,40200000100}
+ 15a01	= Szeretnél leiratkozni az összes\n
+	+ csatorna üzenetszolgáltatásáról?
+ 15a02 [,6e,,b4/1] = Igen
+ 15a03 [,6e,,b4/1] = Nem
+ 16800 [,64,1,b8] = \z{c0a,20200000200}
+ 16801	= A feliratkozás meghiúsult.
+ 16900 [,64,1,b8] = \z{c0a,40200000200}
+ 16901	= A feliratkozás meghiúsult.\n
+	+ \n
+	+ Szeretnéd újra megpróbálni?
+ 16902 [,6e,,b4/1] = Újrapróbálkozás
+ 16903 [,6e,,b4/1] = Mégse
+ 16a00 [,64,1,b8] = \z{c0a,30200000100}
+ 16a01	= Az üzenetszolgáltatás beállításait\n
+	+ a csatorna beállításaiban,\n
+	+ a főmenü alatt találod meg.
+ 16a02 [,6e,1,b8/1] = OK
+ 16b00 [,64,1,b8] = \z{c0a,20200000200}
+ 16b01	= A leiratkozás meghiúsult.
+ 16c00 [,64,1,b8] = \z{c0a,40200000200}
+ 16c01	= A leiratkozás meghiúsult.\n
+	+ \n
+	+ Szeretnéd újra megpróbálni?
+ 16c02 [,6e,,b4/1] = Újrapróbálkozás
+ 16c03 [,6e,,b4/1] = Mégse
+ 17c00 [,64,1,e0] = \z{c0a,20200000100}
+ 17c01	= A konzol ismét fel fog iratkozni\n
+	+ az üzenetszolgáltatásra\n
+	+ a kiválasztott nyelven.
+ 19000 [,64,1,b8] = \z{c0a,30200000200}
+ 19001	= Megszakadt a kapcsolat.\n
+	+ A részletekért olvasd el a\n
+	+ Wii kézikönyvet!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 19002 [,6e,1,b8/1] = Vissza a Wii menübe
+ 19003 [,6e,,b4/1] /
+ 19100 [,64,1,b8] /
+ 19101	/
+ 19102 [,6e,1,b8/1] /
+ 19103 [,6e,,b4/1] /
+ 19200 [,64,1,b8] /
+ 19201	/
+ 19202 [,6e,1,b8/1] /
+ 19203 [,6e,,b4/1] /
+ 19300 [,64,1,b8] /
+ 19301	/
+ 19302 [,6e,1,b8/1] /
+ 19303 [,6e,,b4/1] /
+ 19400 [,64,1,b8] /
+ 19401	/
+ 19402 [,6e,,b4/1] /
+ 19403 [,6e,,b4/1] /
+ 19500 [,64,1,b8] /
+ 19501	/
+ 19502 [,6e,,b4/1] /
+ 19503 [,6e,,b4/1] /
+ 19a00 [,64,1,b8] = \z{c0a,40200000200}
+ 19a01	= A hozzáférési pont nem található.\n
+	+ Ellenőrizd a hálózat nevét, majd próbáld\n
+	+ újra!
+	+ \n
+	+ Hibakód: \z{600,0}
+ 19a02 [,6e,,b4/1] = Újra
+ 19a03 [,6e,,b4/1] = Wii menü
+ 19b00 [,64,1,b8] = \z{c0a,40200000200}
+ 19b01	= A Nintendo Wi-Fi USB Connector\n
+	+ nem található. Ellenőrizd, hogy az\n
+	+ eszköz működik-e!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 19b02 [,6e,,b4/1] = Újra
+ 19b03 [,6e,,b4/1] = Wii menü
+ 19d00 [,64,1,b8] = \z{c0a,40200000200}
+ 19d01	= Nincs kapcsolat. Ellenőrizd az\n
+	+ internetbeállításokat, majd próbáld\n
+	+ újra!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 19d02 [,6e,,b4/1] = Újra
+ 19d03 [,6e,,b4/1] = Wii menü
+ 19e00 [,64,1,b8] = \z{c0a,40200000200}
+ 19e01	= Nincs kapcsolat.\n
+	+ A részletekért olvasd el a\n
+	+ Wii kézikönyvet!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 19e02 [,6e,,b4/1] = Újra
+ 19e03 [,6e,,b4/1] = Wii menü
+ 1a400 [,64,1,b8] = \z{c0a,40200000200}
+ 1a401	= Nincs kapcsolat.\n
+	+ A részletekért olvasd el a\n
+	+ Wii kézikönyvet!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 1a402 [,6e,,b4/1] = Újra
+ 1a403 [,6e,,b4/1] = Wii menü
+ 1a500 [,64,1,b8] /
+ 1a501	/
+ 1a502 [,6e,,b4/1] /
+ 1a503 [,6e,,b4/1] /
+ 1a600 [,64,1,b8] /
+ 1a601	/
+ 1a602 [,6e,,b4/1] /
+ 1a603 [,6e,,b4/1] /
+ 1a800 [,64,1,b8] /
+ 1a801	/
+ 1a802 [,6e,,b4/1] /
+ 1a803 [,6e,,b4/1] /
+ 1a900 [,64,1,b8] /
+ 1a901	/
+ 1a902 [,6e,,b4/1] /
+ 1a903 [,6e,,b4/1] /
+ 1ab00 [,64,1,b8] = \z{c0a,40200000200}
+ 1ab01	= A csatlakozás meghiúsult, mert a\n
+	+ hálózaton egy másik eszköz ugyanezt\n
+	+ az IP-címet használja.\n
+	+ Ellenőrizd az internetbeállításokat,\n
+	+ majd próbáld újra!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 1ab02 [,6e,,b4/1] = Újra
+ 1ab03 [,6e,,b4/1] = Wii menü
+ 1b800 [,64,1,b8] /
+ 1b801	/
+ 1b802 [,6e,,b4/1] /
+ 1b803 [,6e,,b4/1] /
+ 1f400 [,64,1,b8] /
+ 1f401	/
+ 1f402 [,6e,1,b8/1] /
+ 1f403 [,6e,,b4/1] /
+ 1f500 [,64,1,b8] /
+ 1f501	/
+ 1f502 [,6e,,b4/1] /
+ 1f503 [,6e,,b4/1] /
+ 22600 [,64,1,b8] = \z{c0a,30200000200}
+ 22601	= Kiszolgálóhiba történt.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 22602 [,6e,1,b8/1] = Vissza a Wii menübe
+ 22603 [,6e,,b4/1] /
+ 22700 [,64,1,b8] = \z{c0a,30200000100}
+ 22701	= A csatorna mentésének része sérült,\n
+	+ ezért új Miimestert kell kijelölnöd.\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 22702 [,6e,1,b8/1] = Újraindítás
+ 25800 [,64,1,b8] = \z{c0a,30200000100}
+ 25801	= Kiszolgálóhiba történt.\n
+	+ Próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 25802 [,6e,1,b8/1] = Vissza a Wii menübe
+ 28a00 [,64,1,b8] = \z{c0a,30200000200}
+ 28a01	= Nincs kapcsolat.\n
+	+ Ellenőrizd az internetbeállításokat\n
+	+ és próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 28a02 [,6e,1,b8/1] = Vissza a Wii menübe
+ 28a03 [,6e,,b4/1] /
+ 2bc00 [,64,1,b8] = \z{c0a,40200000200}
+ 2bc01	= Az adatküldés meghiúsult.\n
+	+ Ellenőrizd az internetbeállításokat\n
+	+ és próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 2bc02 [,6e,,b4/1] = Újra
+ 2bc03 [,6e,,b4/1] = Wii menü
+ 2ee00 [,64,1,b8] = \z{c0a,40200000200}
+ 2ee01	= Nincs kapcsolat.\n
+	+ Ellenőrizd az internetbeállításokat\n
+	+ és próbáld újra később!\n
+	+ \n
+	+ Hibakód: \z{600,0}
+ 2ee02 [,6e,,b4/1] = Újra
+ 2ee03 [,6e,,b4/1] = Wii menü
+ 3e800 [,64,1,e0] = \z{c0a,20200010000}
+ 3e801	= \z{8ff,100}■ Miiversenycsatorna\z{8ff,0}\n
+	+ \n
+	+ Isten hozott a\n
+	+ Miiversenycsatornán!\n
+	+ Itt különböző \z{8ff,200}versenyekhez\z{8ff,0} ké-\n
+	+ szíthesz egyedi Miiket és mások\n
+	+ által készített Miiket tölthetsz\n
+	+ le a \z{8ff,200}nyilvános plázából\z{8ff,0}.\040
+ 3e900 [,64,1,e0] = \z{c0a,20200010000}
+ 3e901	= \z{8ff,100}■ Miimester-regisztráció\z{8ff,0}\n
+	+ \n
+	+ Minden felhasználót egy\n
+	+ \z{8ff,200}Miimester\z{8ff,0} képvisel, ami a\n
+	+ versenyeken és a nyilvános\n
+	+ plázában közzétett Miik\n
+	+ mellet fog megjelenni.\n
+	+ A benevezéshez kötelező\n
+	+ kijelölnöd egy Miimestert.
+ 3ea00 [,64,1,e0] = \z{c0a,30200000200}
+ 3ea01	= Jelenleg nem nevezhetsz be\n
+	+ egy Miit sem a Miiversenycsatornán,\n
+	+ mert a Miicsatornán lévő Miik közül\n
+	+ egyik sem áll a tulajdonodban.\n
+	+ \n
+	+ A kezdéshez látogasd meg a\n
+	+ Miicsatornát és készíts egy Miit!
+ 3ea02 [,6e,1,b8/1] = Vissza a Wii menübe
+ 3ec00 [,64,1,e0] = \z{c0a,20200000000}
+ 3ec01	= Jelölj ki magadnak\n
+	+ egy Miimestert!
+ 3ed00 [,64,,c8] = \z{c0a,20100000000}
+ 3ed01 [,50,1] = Csak a saját\n
+	+ Miicsatornádon készült\n
+	+ Miik közül jelölhetsz ki\n
+	+ Miimestert.
+ 3ee00 [,50,1] = \z{c0a,40100000000}
+ 3ee01 [,50,1] = Biztosan\n
+	+ \z{8ff,200}\z{600,1}\z{8ff,0}\n
+	+ legyen a\n
+	+ Miimestered?
+ 3ee02 [,6e,,b4/1] = Megerősítés
+ 3ee03 [,6e,,b4/1] = Mégse
+ 3ef00 [,64,1,e0] = \z{c0a,30200000200}
+ 3ef01	= Ez a Mii nem megfelelő\n
+	+ becenévvel rendelkezik.\n
+	+ Változtasd meg a Mii\n
+	+ becenevét vagy jelölj ki\n
+	+ egy másik Miimestert!
+ 3ef02 [,6e,1,b8/1] = OK
+ 3f000 [,64,1,e0] = \z{c0a,20200000000}
+ 3f001	= Mostantól \z{8ff,200}\z{600,1}\z{8ff,0}\n
+	+ a Miimestered.
+ 3f100 [,64,1,e0] = \z{c0a,20200000000}
+ 3f101	= A Miimesterváltási folyamat\n
+	+ megszakadt.
+ 3f200 [,64,1,e0] /
+ 3f201	/
+ 3f202 [,6e,,b4/1] /
+ 3f203 [,6e,,b4/1] /
+ 3f300 [,64,1,e0] = \z{c0a,30200010100}
+ 3f301	= \z{600,0}\n
+ 3f302 [,6e,1,b8/1] = Tovább
+ 3f400 [,64,1,e0] = \z{c0a,30200010100}
+ 3f401	= \z{600,0}\n
+ 3f402 [,6e,1,b8/1] = OK
+ 3f500 [,64,1,e0/1] = \z{c0a,40200000000}
+ 3f501	= Szeretnéd megszakítani a\n
+	+ Miimesterkijelölést és\n
+	+ visszatérni a Wii menübe?
+ 3f502 [,6e,,b4/1] = Wii menü
+ 3f503 [,6e,,b4/1] = Mégse
+ 3f600	= \z{8ff,100}■ FONTOS INFORMÁCIÓ\z{8ff,0}\n
+	+ \n
+	+ ● A Miimestered becenevét\n
+	+ bármely másik felhasználó\n
+	+ láthatja.\n
+	+ ● A Miimestered beceneve\n
+	+ ne legyen a saját vagy más\n
+	+ valódi neve, és ne tartalmazzon\n
+	+ személyes információt vagy\n
+	+ trágár kifejezéseket!\n
+	+ A Nintendo fenntartja a Miik\n
+	+ kinézetének vagy nevének\n
+	+ figyelmeztetés nélküli\n
+	+ törlésének jogát.\n
+	+ ● Ha szeretnéd megváltoztatni\n
+	+ a Miimester becenevét, azt\n
+	+ a Miicsatornán megteheted.
+ 44c00 [,50,2,1c] /
+ 44d00 [,64,,8c/1] = Csere
+ 7d000 [,64,,c8] = \z{c0a,20100000000}
+ 7d001 [,50,1] = Csak a saját\n
+	+ Miicsatornádon készült\n
+	+ Miik közül tehetsz közzé\n
+	+ a nyilvános plázában.
+ 7d100 [,50,1] = \z{c0a,40100000000}
+ 7d101 [,50,1] = Biztosan be akarod\n
+	+ nevezni az\n
+	+ alábbi Miit?\n
+	+ \z{8ff,200}\z{600,1}\z{8ff,0}
+ 7d102 [,6e,,b4/1] = Benevezés
+ 7d103 [,6e,,b4/1] = Mégse
+ 7d200 [,64,1,e0] = \z{c0a,40200000100}
+ 7d201	= Ezt a Miit már benevezted.\n
+	+ A Mii \z{8ff,200}nevezési azonosítója\z{8ff,0}:\n
+	+ \z{8ff,200}\z{600,0}\z{8ff,0}\n
+	+ \n
+	+ Az ismételt benevezés alaphelyzetbe\n
+	+ fogja állítani a Mii rangsorolását.\n
+	+ Biztosan újra be akarod nevezni?
+ 7d202 [,6e,,b4/1] = Ismételt benevezés
+ 7d203 [,6e,,b4/1] = Mégse
+ 7d300 [,64,1,b8] = \z{c0a,30200010100}
+ 7d301	= \z{600,0}
+ 7d302 [,6e,1,b8/1] = Tovább
+ 7d400 [,64,1,e0] = \z{c0a,40200010100}
+ 7d401	= \z{600,0}
+ 7d402 [,6e,,b4/1] = Benevezés
+ 7d403 [,6e,,b4/1] = Kilépés
+ 7d500	= \z{8ff,100}■ FONTOS INFORMÁCIÓ\z{8ff,0}\n
+	+ \n
+	+ ● A nyilvános plázában való\n
+	+ közzététellel elfogadod, hogy a\n
+	+ közzétett Miit bármely másik\n
+	+ felhasználó megtekintheti\n
+	+ és letöltheti. A letöltött\n
+	+ Miiket bárki átnevezheti.\n
+	+ Egy Mii közzétételét nem\n
+	+ lehet visszavonni.\n
+	+ ● Beleegyezel, hogy a\n
+	+ közzétett Miit a Nintendo\n
+	+ vagy egy harmadik fél\n
+	+ bárhogyan felhasználhatja\n
+	+ és/vagy megváltoztathatja.\n
+	+ ● Beleegyezel, hogy a\n
+	+ közzétett Miit a Nintendo\n
+	+ figyelmeztetés nélkül\n
+	+ megváltoztathatja vagy\n
+	+ törölheti.\n
+ 7da00 [,64,1,b8] = \z{c0a,30200000000}
+ 7da01 [,55,1,e0] = Sikeres benevezés.\n
+	+ \n
+	+ A Mii \z{8ff,200}nevezési azonosítója\z{8ff,0}:\n
+	+ \z{8ff,200}\z{600,0}
+ 7da02 [,6e,1,b8/1] = OK
+ 7e400 [,64,1,e0] = \z{c0a,40000000000}
+ 7e401 [,6e,,b4/1] = Igen
+ 7e402 [,6e,,b4/1] = Nem
+ 80200 [,64,1,b8] = \z{c0a,30200000100}
+ 80201	= Ha megtetszik egy Mii, azt\n
+	+ importálhatod a saját\n
+	+ Miicsatornádra.\n
+	+ \n
+	+ Az importálás után ellenőrizd a\n
+	+ Miicsatornát, hogy a Mii\n
+	+ biztonságban megérkezett-e!
+ 80202 [,6e,1,b8/1] = OK
+ 80300 [,64,1,e0] = \z{c0a,20200000200}
+ 80301	= A Miicsatorna megtelt, ezért\n
+	+ nem importálhatsz több Miit.\n
+	+ \n
+	+ Szabadíts fel több helyet a\n
+	+ Miicsatornán a nem kívánt\n
+	+ Miik törlésével!
+ 80400 [,64,1,e0] = \z{c0a,20200000100}
+ 80401	= Már rendelkezel ezzel a Miivel.
+ 80500 [,64,1,e0] = \z{c0a,20200000200}
+ 80501	= Ez a Mii már szerepel\n
+	+ a saját Miiplázádban.\n
+	+ \n
+	+ Ha ismét importálni szeretnéd ezt\n
+	+ a Miit, akkor a Miiplázádban lévő\n
+	+ jelenlegi példánya ki lesz cserélve.
+ 80600 [,64,,c8] = \z{c0a,40100000000}
+ 80601 [,50,1] = Biztosan ki akarod cserélni\n
+	+ \z{8ff,200}\z{600,1}\z{8ff,0}\n
+	+ már meglévő példányát\n
+	+ ezzel?
+ 80602 [,6e,,b4/1] = Csere
+ 80603 [,6e,,b4/1] = Mégse
+ 80700 [,64,1,e0] = \z{c0a,20200000000}
+ 80701	= \z{8ff,200}\z{600,1}\z{8ff,0}\n
+	+ importálása\n
+	+ sikeresen befejeződött.
+ 80c00 [,64,,c8] = \z{c0a,20100000000}
+ 80c01 [,50,1] = Adj a Miinek\n
+	+ egy új\n
+	+ becenevet!
+ 80d00 [,64,,c8] = \z{c0a,40100000000}
+ 80d01 [,50,1] = Biztosan az alábbi\n
+	+ legyen a Mii\n
+	+ beceneve?\n
+	+ \z{8ff,200}\z{600,1}\z{8ff,0}
+ 80d02 [,6e,,b4/1] = Megerősítés
+ 80d03 [,6e,,b4/1] = Mégse
+ 81600 [,64,1,b8] = \z{c0a,30200000100}
+ 81601	= Ha különösen megtetszik egy Mii,\n
+	+ akkor nyomd meg a\n
+	+ \z{8ff,200}Tetszik!\z{8ff,0}-gombot a Mii\n
+	+ \z{8ff,200}kedvencnek\z{8ff,0} jelöléséhez!
+ 81602 [,6e,1,b8/1] = OK
+ 81700 [,64,1,e0] /
+ 81701	/
+ 81800 [,64,,c8] = \z{c0a,40100000000}
+ 81801 [,50,1] = Biztosan el akarod\n
+	+ távolítani ezt a\n
+	+ Miit a kedvenceid\n
+	+ közül?
+ 81802 [,6e,,b4/1] = Eltávolítás
+ 81803 [,6e,,b4/1] = Mégse
+ 82000 [,64,1,e0] /
+ 82001	/
+ 82002 [,6e,1,e0/1] /
+ 82a00 [,64,1,b8] = \z{c0a,30200010100}
+ 82a01	= \z{8ff,100}■ A nyilvános pláza\z{8ff,0}\n
+	+ \n
+	+ A nyilvános pláza a világ minden\n
+	+ tájáról származó Miik gyülekező-\n
+	+ helye. Itt teheted közzé az\n
+	+ általad készített Miiket és\n
+	+ tekintheted meg másokét.
+ 82a02 [,6e,1,b8/1] = Tovább
+ 82b00 [,64,1,e0] = \z{c0a,20200000200}
+ 82b01	= A kijelölt Mii importálása\n
+	+ meghiúsult.
+ 82c00 [,64,1,e0] = \z{c0a,40200000200}
+ 82c01	= A kijelölt Mii importálása\n
+	+ meghiúsult.
+	+ \n
+	+ Szeretnéd újra megpróbálni?\n
+ 82c02 [,6e,,b4/1] = Újra
+ 82c03 [,6e,,b4/1] = Kilépés
+ 82d00 [,64,1,e0] = \z{c0a,30200010100}
+ 82d01	= ● A nyilvános pláza megjelenítési\n
+	+ módjának megváltoztatásához\n
+	+ nyomd meg a képernyő alján\n
+	+ található \z{8ff,200}A mai toplista\z{8ff,0}-gombot!\n
+	+ ● Egy Mii benevezéséhez\n
+	+ nyomd meg a jobb felső sarokban\n
+	+ található, borítékkel jelzett\n
+	+ \z{8ff,200}Benevezés\z{8ff,0}-gombot!
+ 82d02 [,6e,1,b8/1] = OK
+ 82e00 [,64,1,e0] = \z{c0a,20200010100}
+ 82e01	= \z{8ff,100}■ Keresés\z{8ff,0}\n
+	+ \n
+	+ Két különböző módon kereshetsz\n
+	+ rá egy Miire: beállíthatsz\n
+	+ keresési feltételeket vagy\n
+	+ megadhatod egy konkrét Mii\n
+	+ nevezési azonosítóját.\n
+	+ Használd a Neked megfelelő\n
+	+ módszert és találd meg a\n
+	+ tökéletes Miit!
+ 82f00 [,64,1,e0] = \z{c0a,20200000000}
+ 82f01	= Nincs találat.
+ 83000 [,64,1,e0] = \z{c0a,40200000100}
+ 83001	= Biztosan vissza akarsz térni\n
+	+ a Miiversenycsatorna\n
+	+ főmenüjébe?
+ 83002 [,6e,,b4/1] = Igen
+ 83003 [,6e,,b4/1] = Nem
+ 83100 [,64,1,e0] = \z{c0a,30200010100}
+ 83101	= \z{8ff,100}■ Kedvencek\z{8ff,0}\n
+	+ \n
+	+ ● Itt találhatod meg az általad\n
+	+ kedvencnek jelölt Miiket.\n
+	+ ● A kedvencnek jelöléshez nyomd meg a\n
+	+ \z{8ff,200}Tetszik!\z{8ff,0}-gombot egy Mii\n
+	+ megtekintése közben!
+ 83102 [,6e,1,b8/1] = OK
+ 83200 [,64,1,e0] = \z{c0a,20200000000}
+ 83201	= Ez a Mii már szerepel\n
+	+ a saját Miiplázádban.\n
+	+ \n
+	+ A saját Miijeidet nem tudod\n
+	+ újra importálni, ha már\n
+	+ szerepelnek a Miiplázádban.
+ 83300 [,64,1,b8] = \z{c0a,30200000100}
+ 83301	= Legfeljebb \z{8ff,200}50 Miit\z{8ff,0}\n
+	+ jelölhetsz egyszerre kedvencnek.\n
+	+ \n
+	+ Ha megtelik a Kedvencek-listád,\n
+	+ akkor egy új Mii felvételével\n
+	+ a legrégebbi automatikusan\n
+	+ eltávolításra kerül.
+ 83302 [,6e,1,b8/1] = OK
+ 83400 [,64,1,e0] = \z{c0a,20200000100}
+ 83401	= \z{600,3}\n
+	+ A Miimester-ranglista\n
+	+ közzétételre került.\n
+	+ \n
+	+ A legközelebbi rangsorolás\n
+	+ az alábbi napon lesz közzétéve:\n
+	+ \z{600,2}
+ 9c400 [,64,1,e0] /
+ 9c401	= \z{8ff,100}■ Miiversenyek\z{8ff,0}\n
+	+ \n
+	+ Rendszeresen vannak témához\n
+	+ kötött Miiversenyek.\n
+	+ A versenyeken \z{8ff,200}benevezhetsz\z{8ff,0} és\n
+	+ \z{8ff,200}bírálhatsz\z{8ff,0} is Miiket.
+ 9c402 [,6e,1,e0/1] /
+ 9c500 [,64,1,e0] = \z{c0a,40200000100}
+ 9c501	= Biztosan vissza akarsz térni\n
+	+ a Miiversenycsatorna\n
+	+ főmenüjébe?
+ 9c502 [,6e,,b4/1] = Igen
+ 9c503 [,6e,,b4/1] = Nem
+ 9c900 [,64,1,b8] = \z{c0a,20200000100}
+ 9c901	= Ezt a versenyt lemondták.
+ 9ce00 [,64,1,e0] = \z{c0a,40200000100}
+ 9ce01	= A benevezéshez először\n
+	+ látogasd meg a Miicsatornát és\n
+	+ hozz létre egy Miit!\n
+	+ \n
+	+ Szeretnél visszatérni\n
+	+ a Wii menübe?
+ 9ce02 [,6e,,b4/1] = Igen
+ 9ce03 [,6e,,b4/1] = Nem
+ 9d800 [,64,1,b8] = \z{c0a,30200010100}
+ 9d801	= \z{600,0}
+ 9d802 [,6e,1,b8/1] = Tovább
+ 9d900 [,64,1,e0] = \z{c0a,40200010000}
+ 9d901	= \z{600,0}
+ 9d902 [,6e,,b4/1] = Benevezés
+ 9d903 [,6e,,b4/1] = Kilépés
+ 9da00	= \z{8ff,100}■ FONTOS INFORMÁCIÓ\z{8ff,0}\n
+	+ \n
+	+ ● Egy Mii közzétételével beleegyezel,\n
+	+ hogy a nyertes Miiket bárki\n
+	+ megtekintheti és letöltheti.\n
+	+ A letöltött Miiket bárki\n
+	+ átnevezheti.\n
+	+ ● Beleegyezel, hogy a közzétett\n
+	+ Miit a Nintendo vagy egy harmadik\n
+	+ fél bárhogyan felhasználhatja\n
+	+ és/vagy megváltoztathatja.\n
+	+ ● Beleegyezel, hogy a közzétett\n
+	+ Miit a Nintendo figyelmeztetés\n
+	+ nélkül megváltoztathatja vagy\n
+	+ törölheti.\n
+ 9e200 [,64,,c8] = \z{c0a,40100000000}
+ 9e201 [,50,1] = Ezt a Miit már\n
+	+ benevezték.\n
+	+ \n
+	+ Szeretnél benevezni\n
+	+ egy másik Miit?
+ 9e202 [,6e,,b4/1] = Benevezés
+ 9e203 [,6e,,b4/1] = Kilépés
+ 9ec00 [,64,1,b8] = \z{c0a,20200000000}
+ 9ec01	= Sikeresen beneveztél\n
+	+ egy Miit a versenyre!\n
+	+ \n
+	+ Az eredmények megtekintéséhez\n
+	+ látogass vissza később!
+ 9ed00 [,64,1,e0] = \z{c0a,30200000200}
+ 9ed01	= A verseny benevezési időszaka\n
+	+ véget ért, ezért már nem lehet\n
+	+ Miiket benevezni.
+ 9ed02 [,6e,1,b8/1] = Sajnáljuk!
+ 9ee00 [,64,1,b8] = \z{c0a,20200000000}
+ 9ee01	= A verseny benevezési időszaka\n
+	+ véget ért. Az elbírálási időszak\n
+	+ hamarosan megkezdődik.\n
+	+ \n
+	+ A bíráláshoz látogass vissza\n
+	+ egy pár nap múlva!
+ 9ef00 [,64,1,b8] = \z{c0a,20200000000}
+ 9ef01	= A verseny elbírálási időszaka\n
+	+ véget ért. A szavazatszámlálás\n
+	+ jelenleg zajlik.\n
+	+ \n
+	+ Az eredmények megtekintéséhez\n
+	+ látogass vissza egy pár nap múlva!
+ 9f000 [,64,1,b8] = \z{c0a,20200000000}
+ 9f001	= A verseny eredményei\n
+	+ már nem tekinthetőek meg.
+ 9f100 [,64,,c8] = \z{c0a,20100000000}
+ 9f101 [,50,1] = Csak a saját\n
+	+ Miicsatornádon készült\n
+	+ Miik közül nevezhetsz be\n
+	+ versenyekre.
+ 9f200 [,64,1,e0] = \z{c0a,30200010100}
+ 9f201	= \z{600,0}\n
+ 9f202 [,6e,1,b8/1] = Tovább
+ 9f300 [,64,1,e0] = \z{c0a,30200010000}
+ 9f301	= \z{600,0}\n
+ 9f302 [,6e,1,b8/1] = OK
+ a2800 [,64,1,e0] /
+ a2801	/
+ a2802 [,6e,1,e0/1] /
+ a2900 [,64,1,e0] = \z{c0a,20200000100}
+ a2901	= Egy 20-órás időszakban csak\n
+	+ 5 szavazatot adhatsz le.\n
+	+ \n
+	+ A további bíráláshoz\n
+	+ látogass vissza később!
+ a2a00 [,64,1,e0] = \z{c0a,40200000100}
+ a2a01	= Biztosan meg akarod szakítani a\n
+	+ bírálást és kilépni?
+ a2a02 [,6e,,b4/1] = Kilépés
+ a2a03 [,6e,,b4/1] = Mégse
+ a2b00 [,64,,c8] /
+ a2b01 [,64,,be/1] = Mii kiválasztása
+ a2b02 [,6e,,b4/1] /
+ a2b03 [,6e,,b4/1] /
+ a2c00 [,6e,,b4/1] = \z{c0a,40000000100}
+ a2c01 [,6e,,b4/1] = Szavazás
+ a2c02 [,6e,,b4/1] = Mégse
+ a2d00 [,64,1,b8] = \z{c0a,20200000000}
+ a2d01	= Köszönjük a szavazást!
+ a2e00 [,64,1,e0] /
+ a2e01 [,6e,,b4/1] /
+ a2e02 [,6e,,b4/1] /
+ a2e03 [,50,2,1c] /
+ a2f00 [,64,1,e0] = \z{c0a,30200000200}
+ a2f01	= Az elbírálási időszak\n
+	+ véget ért, ezért már nem\n
+	+ adhatsz le több szavazatot.
+ a2f02 [,6e,1,b8/1] = OK
+ a3000 [,64,1,b8] = \z{c0a,20200000100}
+ a3001	= Köszönjük a részvételt!\n
+	+ Minden szavazat számít!
+ a3100 [,64,1,e0] = \z{c0a,20200000100}
+ a3101	= Az eredmények közzétételekor\n
+	+ azt is megnézheted, hogy az általad\n
+	+ bírált Miik hogyan teljesítettek.\n
+	+ Minél jobban teljesítenek az általad\n
+	+ kiválasztott Miik, annál jobban\n
+	+ élesedik a „\z{8ff,200}Miiszemed\z{8ff,0}”.\n\n
+	+ \n
+	+ Most várd meg az eredményeket!
+ a3200 [,64,1,e0] = \z{c0a,20200000000}
+ a3201	= Legutóbb ezeket a Miiket\n
+	+ bíráltad pozitívan.
+ a3300 [,64,1,e0] = \z{c0a,20200000000}
+ a3301	= Figyeld meg jól az alábbi Miicsoportot\n
+	+ és válaszd ki azt a \z{8ff,200}három\z{8ff,0} Miit,\n
+	+ amelyek Szerinted a legjobban\n
+	+ megtestesítik a verseny témáját!
+ a3400 [,64,1,e0] = \z{c0a,20200000200}
+ a3401	= Jelenleg nem bírálhatsz\n
+	+ ezen a versenyen.\n
+	+ \n
+	+ Próbáld újra később!
+ a3500 [,64,,c8] /
+ a3501 [,5a,,be/1] = Kiválasztás megszüntetése
+ a3502 [,6e,,b4/1] /
+ a3503 [,6e,,b4/1] /
+ a3600 [,50,2,1c] = Biztosan ezt a három Miit választod?
+ a3700 [,64,1,e0] = \z{c0a,20200010100}
+ a3701	= \z{600,0}
+ a3702 [,6e,1,e0/1] /
+ a3800 [,64,1,e0] = \z{c0a,20200010100}
+ a3801	= \z{600,0}
+ a3802 [,6e,1,e0/1] /
+ a3900	= \z{8ff,100}■ Bírálás\z{8ff,0}\n
+	+ \n
+	+ ● Egy megadott Miicsoportból\n
+	+ kell kiválasztanod azt a \z{8ff,200}három\z{8ff,0} Miit,\n
+	+ amelyek Szerinted a legjobban\n
+	+ megtestesítik a verseny témáját.\n
+	+ ● Mutass rá egy Miire és nyomd meg\n
+	+ az \z{8ff,200}\x{e042}\z{8ff,0}-gombot, hogy közelebbről is\n
+	+ megvizsgálhasd! Ezután eldöntheted,\n
+	+ hogy szeretnél-e rá szavazni vagy sem.\n
+	+ ● Az \z{8ff,200}\x{e045}\z{8ff,0} és \z{8ff,200}\x{e046}\z{8ff,0}-gombok segítségével\n
+	+ gyorsan kiválaszthatsz egy Miit vagy\n
+	+ visszavonhatod a kiválasztását.\n
+	+ ● Ha nincs elég Mii, amit kiválasztanál,\n
+	+ nyomd meg a \z{8ff,200}Csere\z{8ff,0}-gombot és a\n
+	+ kijelölés nélküli Miik ki lesznek cserélve\n
+	+ újakra!
+ a3a00 [,64,1,e0] = \z{c0a,20200000100}
+ a3a01	= Bírálás felfüggesztve.
+ a3b00 [,64,1,e0] = \z{c0a,20200000100}
+ a3b01	= Már kiválasztottál 3 Miit.\n
+	+ \n
+	+ Ha szeretnéd kiválasztani ezt a\n
+	+ Miit, szüntesd meg az egyik Mii\n
+	+ kijelölését!
+ a3c00 [,64,1,b8] = \z{c0a,20200000000}
+ a3c01	= Köszönjük a versenyen való\n
+	+ részvételt!\n
+	+ \n
+	+ Ha szeretnéd, készíthesz egy\n
+	+ emlékfényképet.\n
+	+ \n
+	+ Helyezd oda a Miimesteredet és a\n
+	+ benevezett Miit, ahova szeretnéd!
+ a3d00 [,64,1,b8] = \z{c0a,20200000000}
+ a3d01	= A fénykép a Wii üzenőfalra\n
+	+ lett küldve.
+ a3e00 [,64,1,e0] = \z{c0a,30200010100}
+ a3e01	= \z{8ff,100}■ Különdíj\z{8ff,0}\n
+	+ \n
+	+ Kiválasztottunk egy Miit a verseny\n
+	+ nevezői közül, ami különdíjban\n
+	+ részesült. A díj keretében ez a Mii\n
+	+ lesz a Nintendo hivatalos\n
+	+ \z{8ff,200}\z{600,1}\z{8ff,0} Miije.
+ a3e02 [,6e,1,b8/1] = Eredmények
+ a3f00 [,64,,c8] /
+ a3f01 [,50,2,1c] = A különdíjban részesült Mii tulajdonosa:\n
+	+ \z{600,1}
+ a3f02 [,5a,,be/1] = Gratulálunk!
+ a4000 [,64,,c8] /
+ a4001 [,50,2,1c] = A Miid különdíjban részesült!
+ a4002 [,6e,,be/1] = Köszönöm!
+ a4100 [,64,,c8] /
+ a4101 [,50,2,1c] = Megvan a nyertes! A Mii tulajdonosa:\n
+	+ \z{600,1}
+ a4102 [,5a,,be/1] = Gratulálunk!
+ a4200 [,64,,c8] /
+ a4201 [,50,2,1c] = A Miid 1. helyezést ért el\n
+	+ a versenyen!
+ a4202 [,5a,,be/1] = Köszönöm!
+ a4300 [,64,1,e0] = \z{c0a,20200000000}
+ a4301	= \z{8ff,100}Eredmények\z{8ff,0}\n
+	+ \n
+	+ Ez a legjobb 50 Mii, amelyeket\n
+	+ a felhasználók választották ki.\n
+ a4400 [,64,1,e0] = \z{c0a,40200000100}
+ a4401	= Napona legfeljebb 2 fényképet\n
+	+ tehetsz közzé a Wii üzenőfalon.\n
+	+ \n
+	+ Ma már nem tehetsz közzé több\n
+	+ fényképet. Szeretnél mégis\n
+	+ készíteni egyet?
+ a4402 [,6e,,b4/1] = Fényképezés
+ a4403 [,6e,,b4/1] = Mégse
+ a4500 [,64,1,e0] = \z{c0a,40200000000}
+ a4501	= Szeretnél fényképet készíteni?
+ a4502 [,6e,,b4/1] = Fényképezés
+ a4503 [,6e,,b4/1] = Mégse
+ a4600 [,64,1,e0] = \z{c0a,20200000000}
+ a4601	= Ezen a versenyen egy Mii sem\n
+	+ ért el helyezést.\n
+	+ \n
+	+ A bemutató véget ért.
+ a4700 [,64,1,e0] = \z{c0a,40200000100}
+ a4701	= Szeretnél visszatérni\n
+	+ a Versenyek-menübe?
+ a4702 [,6e,,b4/1] = Igen
+ a4703 [,6e,,b4/1] = Nem
+ a4800 [,82,1,90/1] = Különdíj
+ a4900 [,82,1,90/1] = Első helyezett
+ a4a00 [,64,1,e0] = \z{c0a,40200000000}
+ a4a01	= Szeretnéd közzétenni ezt a\n
+	+ fényképet a Wii üzenőfalon?\n
+	+ \n
+	+ Megjegyzés: Naponta legfeljebb\n
+	+ 2 fényképet tehetsz közzé a\n
+	+ Wii üzenőfalon.
+ a4a02 [,6e,,b4/1] = Közzététel
+ a4a03 [,6e,,b4/1] = Mégse
+ a4b00 [,64,1,e0] = \z{c0a,30200000300}
+ a4b01	= \z{8ff,100}Gratulálunk!\z{8ff,0}\n
+	+ \n
+	+ A Miid \z{600,4}. helyezést ért el\n
+	+ a versenyen!
+ a4b02 [,6e,1,b8/1] = Eredmények
+ a5000 [,64,1,e0] = \z{c0a,20200000200}
+ a5001	= A rendszer nem tudta közzétenni\n
+	+ a fényképet a Wii üzenőfalon.
+ a5100 [,64,1,e0] = \z{c0a,40200000200}
+ a5101	= A rendszer nem tudta közzétenni\n
+	+ a fényképet a Wii üzenőfalon.\n
+	+ \n
+	+ Szeretnéd újra megpróbálni?
+ a5102 [,6e,,b4/1] = Újrapróbálkozás
+ a5103 [,6e,,b4/1] = Kilépés
+ a5a00 [,64,1,e0] = \z{c0a,20200000000}
+ a5a01	= Helyezd el a benevezett Miit!
+ a5b00 [,64,1,e0] = \z{c0a,20200000000}
+ a5b01	= Helyezd el a Miimesteredet!
+ a5c00 [,64,1,e0] = \z{c0a,40000000100}
+ a5c01 [,6e,,b4/1] = OK
+ a5c02 [,6e,,b4/1] = Újra
+ a5c03 [,6e,,b4/1] /
+ bb800 [,64,1,e0] = \z{c0a,30200010300}
+ bb801	= Tisztelt Miimester \z{8ff,200}\z{600,1}\z{8ff,0}!\n
+	+ \n
+	+ A Miijeid kiemelt népszerűségét\n
+	+ elismervén a Miiversenycsatorna\n
+	+ ezennel \z{8ff,100}Mii-nagymesternek\z{8ff,0}\n
+	+ nevez ki.\n
+	+ \n
+	+ Kelt: \z{600,3}
+ bb802 [,6e,1,b8/1] = Köszönöm!
+ bb900 [,64,1,e0] = \z{c0a,30200000300}
+ bb901	= Kinevezésre került a(z) \z{600,3}-i verseny\n
+	+ \z{8ff,100}Mii-nagymestere\z{8ff,0}.\n
+	+ \n
+	+ \z{8ff,200}\z{600,1}
+ bb902 [,6e,1,b8/1] = Gratulálok!
+ dac00 [,50,2,1c] = Beállítások
+ dad00 [,46,1,ea] = Témák nyelve
+ dae00 [,64,1,2c] = japán
+ dae01 [,64,1,2c] = angol
+ dae02 [,64,1,2c] = német
+ dae03 [,64,1,2c] = francia
+ dae04 [,64,1,2c] = spanyol
+ dae05 [,64,1,2c] = olasz
+ dae06 [,64,1,2c] = holland
+ dae07 [,64,1,2c] = kínai (egysz.)
+ dae08 [,64,1,2c] = kínai (hagy.)
+ dae09 [,64,1,2c] = koreai
+ daf00 [,64,,78/1] = Csere
+ db000 [,6e,1,e0/1] = Kilépés
+ db100 [,46,1,ea] = Üzenetszolgáltatás
+ db200 [,64,1,2c] = Feliratkozva
+ db201 [,64,1,2c] = Leiratkozva
+ db300 [,64,,78/1] = Csere
+ db400 [,50,1,e0] = Válassz ki egy nyelvet!
+ dde00 [,5a,1,4/1] = Miimester-információ
+ ddf00 [,3c,,fa] = Becenév
+ de000 [,3c,,aa] = Ország
+ de800 [,5a,1,4/1] = Benevezési információ
+ de900 [,3c,,fa] = Miimesterrang
+ dea00 [,3c,,fa] = Benevezett Miik
+ deb00 [,5a,,fa] = \z{600,0}
+ deb01 [,5a,,fa] = \z{600,0}
+ deb02 [,5a,,fa] = N.A.
+ dec00 [,3c,,af] = Legnépszeűbb Mii
+ ded00 [,78,,6e/1] /
+ ded01 [,78,,6e/1] /
+ ded02 [,78,,6e/1] /
+ ded03 [,78,,6e/1] /
+ dee00 [,64,,96/1] = \z{600,4}
+ df200 [,5a,1,4/1] = Miiverseny-információ
+ df300 [,3c,,fa] = Miiszem
+ df400 [,5a,,fa] = Példátlan
+ df401 [,5a,,fa] = Mesteri
+ df402 [,5a,,fa] = Nagyszerű
+ df403 [,5a,,fa] = Jó
+ df404 [,5a,,fa] = Átlagon felüli
+ df405 [,5a,,fa] = Átlagos
+ df406 [,5a,,fa] = Átlagon aluli
+ df407 [,5a,,fa] = Képzésre szorul
+ df408 [,5a,,fa] = Silány
+ df409 [,5a,,fa] = Rettenetes
+ df500 [,3c,,fa] /
+ df501 [,3c,,fa] /
+ df600 [,5a,,fa] /
+ df601 [,5a,,fa] /
+ df602 [,5a,,fa] /
+ df700 [,3c,,fa] = Legmagasabb Miirang
+ df800 [,50,,fa] /
+ df801 [,50,,fa] /
+ df802 [,50,,fa] /
+ df803 [,50,,fa] /
+ df900 [,5a,,fa] = N.A.
+ df901 [,5a,ff,ff] = 1. szint
+ df902 [,5a,ff,ff] = 2. szint
+ df903 [,5a,ff,ff] = 3. szint
+ df904 [,5a,ff,ff] = 4. szint
+ df905 [,5a,ff,ff] = 5. szint
+ df906 [,5a,ff,ff] = 6. szint
+ df907 [,5a,ff,ff] = 7. szint
+ df908 [,5a,ff,ff] = 8. szint
+ df909 [,5a,ff,ff] = 9. szint
+ df90a [,5a,ff,ff] = Csúcs (\z{600,4})
+ df90b [,5a,ff,ff] = Csúcs (különdíjazott)
+ df90c [,5a,ff,ff] = Csúcs
+ dfa00 [,64,,20/1] = \z{600,0}
+ dfa01 [,64,,20/1] = 3
+ dfb00 [,46,,b4/1] = Mii-nagymester
+ ed800 [,50,2,1c] = ◆Miiversenycsatorna◆
+ ed900 [,78,,d2/1] = Nyilvános\n
+	+ pláza
+ eda00 [,78,,d2/1] = Versenyek
+ edb00 [,64,1,4/1] = Miimester\n
+	+ -információ
+ edc00 [,64,,8c/1] = Beállítások
+ edd00 [,64,,8c/1] = Wii menü
+ ede00 [,37,,50] = Új!
+ f3c00 [,50,2,1c] = Biztosan közzé akarod tenni ezt a Miit?
+ f3d00 [,3c,,fa] = Mongram
+ f3e00 [,3c,,73] = Nem
+ f3f00 [,5a,,76] = Férfi
+ f3f01 [,5a,,76] = Nő
+ f4000 [,3c,,73] = Születésnap
+ f4100 [,3c,,b4] = Tehetség
+ f4200 [,5a,,76] = ?
+ f4300 [,5a,,78/1] = Csere
+ f4400 [,5a,,78/1] = Csere
+ f6e00 [,50,2,1c] = Add meg a Mii monogramját!
+ f6f00 [,5a,,9c] = Mégse
+ f7000 [,5a,,9c] = OK
+ f7100 [,64,,32] = A
+ f7101 [,64,,32] = B
+ f7102 [,64,,32] = C
+ f7103 [,64,,32] = D
+ f7104 [,64,,32] = E
+ f7105 [,64,,32] = F
+ f7106 [,64,,32] = G
+ f7107 [,64,,32] = H
+ f7108 [,64,,32] = I
+ f7109 [,64,,32] = J
+ f710a [,64,,32] = K
+ f710b [,64,,32] = L
+ f710c [,64,,32] = M
+ f710d [,64,,32] = N
+ f710e [,64,,32] = O
+ f710f [,64,,32] = P
+ f7110 [,64,,32] = Q
+ f7111 [,64,,32] = R
+ f7112 [,64,,32] = S
+ f7113 [,64,,32] = T
+ f7114 [,64,,32] = U
+ f7115 [,64,,32] = V
+ f7116 [,64,,32] = W
+ f7117 [,64,,32] = X
+ f7118 [,64,,32] = Y
+ f7119 [,64,,32] = Z
+ fa000 [,64,,8c/1] = Benevezés
+ fa100 [,5a,,8c/1] = Miimester\n
+	+ rangsorolás
+ fa200 [,64,,8c/1] = Keresés
+ fa300 [,64,,8c/1] = Keresési\n
+	+ távolság
+ fa400 [,64,,8c/1] /
+ fa500 [,64,,8c/1] = Felsora-\n
+	+ koztatás
+ fa600 [,64,,8c/1] = Parádé
+ fa700 [,49,,a0/1] = A mai toplista
+ fa800 [,64,,a0/1] = Top 50
+ fa900 [,64,,a0/1] = Véletlensz.
+ faa00 [,64,,a0/1] = Kedvencek
+ fab00 [,64,1,e0] = \z{c0a,20200010100}
+ fab01	= \z{8ff,100}■ Felsorakoztatási irányítás\z{8ff,0}\n
+	+ \n
+	+ \x{e042}: Mii megtekintése\n
+	+ \x{e041} Fel/Le: Görgetés\n
+	+    (vagy tartsd lenyomva a\n
+	+    \x{e043}-gombot és mozgasd\n
+	+    a Wii Remote-mutatót)\n
+	+ \x{e045}/\x{e046}: Nagyítás/kicsinyítés\n
+	+ \x{e042}+\x{e043}: Mii megfogása\n
+	+ \z{8ff,300}\x{e044}\z{8ff,0}: HOME menü\n
+	+     (Kézikönyv)
+ fac00 [,64,,8c/1] = Súgó
+ fae00 [,3c,,1e/1] = \z{600,0}
+ fae01 [,3c,,1e/1] = \z{600,0}
+ faf00 [,3c,,1e/1] = \z{600,0}
+ faf01 [,3c,,1e/1] = \z{600,0}
+ fb000 [,64,,8c/1] /
+ fb100 [,64,,8c/1] = Vissza
+ fb200 [,64,1,e0] = \z{c0a,20200010100}
+ fb201	= \z{8ff,100}■ Miiparádé-irányítás\z{8ff,0}\n
+	+ \n
+	+ \x{e042}: Mii megtekintése\n
+	+ \x{e041} Fel/Le: További Miik\n
+	+ \z{8ff,300}\x{e044}\z{8ff,0}: HOME menü\n
+	+     (Kézikönyv)
+ fb300 [,3c,,a0/1] = \z{600,0}
+ fd200 [,50,2,1c] = Keresési távolság
+ fd300 [,46,1,ea] = 
+ fd400 [,64,1,2c] = Régiós
+ fd500 [,64,1,2c] = Világszerte
+ fd600 [,64,,78/1] = Váltás
+ fd700 [,50,1,f4] = Válaszd ki a \z{8ff,200}Régiós\z{8ff,0}-beállítást, ha csak\n
+	+ a közelben akarsz keresni vagy\n
+	+ válaszd ki a \z{8ff,200}Világszerte\z{8ff,0}-beállítást,\n
+	+ ha minden Mii között akarsz keresni!
+ fd800 [,6e,1,e0/1] = Bezárás
+100400 [,64,,b4/1] = Importálás
+100500 [,64,,b4/1] = Tetszik!
+100600 [,64,,b4/1] /
+100700 [,64,,b4/1] = Barátok
+100800 [,64,,8c/1] = Eltávolítás
+101800 [,3c,,fa] = Mongram
+101900 [,3c,,fa] /
+101a00 [,3c,,fa] /
+101b00 [,3c,,fa] = Nevezési azonosító
+101c00 [,3c,,73] /
+101d00 [,50,,73] /
+101d01 [,50,,73] /
+101e00 [,3c,,73] /
+101f00 [,3c,,fa] = Tehetség
+102000 [,3c,,fa] = Népszerűség
+102100 [,50,,73] /
+102200 [,50,,fa] = ?
+102300 [,5a,,91/1] = Profil
+102400 [,5a,,91/1] = Bezárás
+102500 [,3c,,80] = Miimester
+102600 [,2e,,80] = Mii-nagymester
+103600 [,55,1,8c] = A Mii barátai
+106800 [,3c,,9a] = Nem:
+106900 [,3c,,9a] = Tehetség:
+106a00 [,55,1,8c] = Találatok
+106b00 [,55,ff,ff] = Férfi
+106b01 [,55,ff,ff] = Nő
+106b02 [,55,ff,ff] = Mindegy
+109a00 [,50,2,1c] /
+109b00 [,46,1,ea] /
+109c00 [,50,1,68] = Add meg a\n
+	+ keresési feltételeket!
+109d00 [,3c,1,54] = Nem
+109e00 [,3c,1,54] = Tehetség
+109f00 [,45,,6e/1] = Keresési\n
+	+ típus
+10a000 [,64,,78/1] = Csere
+10a100 [,64,,78/1] = Csere
+10a200 [,64,,78/1] = Kilépés
+10a300 [,64,,eb/1] = Keresés
+10a400 [,5a,1,54] /
+10a401 [,5a,1,54] /
+10a402 [,5a,1,54] /
+10ae00 [,50,1,e0] = Add meg a tehetséget!
+10af00 [,64,,78/1] /
+10c200 [,50,2,1c] /
+10c300 [,46,1,ea] /
+10c400 [,50,1,68] = Add meg a\n
+	+ nevezési azonosítót!
+10c500 [,3c,1,54] = Nevezési azonosító
+10c600 [,50,,6e/1] /
+10c700 [,64,,a0/1] = Azonosító\n
+	+ megadása
+10c800 [,64,,78/1] /
+10c900 [,64,,eb/1] /
+10fe00 [,5a,1,4/1] /
+10ff00 [,3c,,fa] /
+110000 [,3c,,fa] /
+110100 [,3c,,fa] /
+110200 [,3c,,fa] /
+110300 [,50,,fa] = ?
+119400 [,55,ff,ff] = \z{600,1} Miijei
+119e00 [,50,2,8] = \z{600,3}-i Miimester-rangsorolás
+119f00 [,5a,,5a] = 100.
+119f01 [,5a,,5a] = 1.
+119f02 [,5a,,5a] = 2.
+119f03 [,5a,,5a] = 3.
+119f04 [,5a,,5a] = 4.
+119f05 [,5a,,5a] = 5.
+119f06 [,5a,,5a] = 6.
+119f07 [,5a,,5a] = 7.
+119f08 [,5a,,5a] = 8.
+119f09 [,5a,,5a] = 9.
+119f0a [,5a,,5a] = 10.
+119f0b [,5a,,5a] = 11.
+119f0c [,5a,,5a] = 12.
+119f0d [,5a,,5a] = 13.
+119f0e [,5a,,5a] = 14.
+119f0f [,5a,,5a] = 15.
+119f10 [,5a,,5a] = 16.
+119f11 [,5a,,5a] = 17.
+119f12 [,5a,,5a] = 18.
+119f13 [,5a,,5a] = 19.
+119f14 [,5a,,5a] = 20.
+119f15 [,5a,,5a] = 21.
+119f16 [,5a,,5a] = 22.
+119f17 [,5a,,5a] = 23.
+119f18 [,5a,,5a] = 24.
+119f19 [,5a,,5a] = 25.
+119f1a [,5a,,5a] = 26.
+119f1b [,5a,,5a] = 27.
+119f1c [,5a,,5a] = 28.
+119f1d [,5a,,5a] = 29.
+119f1e [,5a,,5a] = 30.
+119f1f [,5a,,5a] = 31.
+119f20 [,5a,,5a] = 32.
+119f21 [,5a,,5a] = 33.
+119f22 [,5a,,5a] = 34.
+119f23 [,5a,,5a] = 35.
+119f24 [,5a,,5a] = 36.
+119f25 [,5a,,5a] = 37.
+119f26 [,5a,,5a] = 38.
+119f27 [,5a,,5a] = 39.
+119f28 [,5a,,5a] = 40.
+119f29 [,5a,,5a] = 41.
+119f2a [,5a,,5a] = 42.
+119f2b [,5a,,5a] = 43.
+119f2c [,5a,,5a] = 44.
+119f2d [,5a,,5a] = 45.
+119f2e [,5a,,5a] = 46.
+119f2f [,5a,,5a] = 47.
+119f30 [,5a,,5a] = 48.
+119f31 [,5a,,5a] = 49.
+119f32 [,5a,,5a] = 50.
+119f33 [,5a,,5a] = 51.
+119f34 [,5a,,5a] = 52.
+119f35 [,5a,,5a] = 53.
+119f36 [,5a,,5a] = 54.
+119f37 [,5a,,5a] = 55.
+119f38 [,5a,,5a] = 56.
+119f39 [,5a,,5a] = 57.
+119f3a [,5a,,5a] = 58.
+119f3b [,5a,,5a] = 59.
+119f3c [,5a,,5a] = 60.
+119f3d [,5a,,5a] = 61.
+119f3e [,5a,,5a] = 62.
+119f3f [,5a,,5a] = 63.
+119f40 [,5a,,5a] = 64.
+119f41 [,5a,,5a] = 65.
+119f42 [,5a,,5a] = 66.
+119f43 [,5a,,5a] = 67.
+119f44 [,5a,,5a] = 68.
+119f45 [,5a,,5a] = 69.
+119f46 [,5a,,5a] = 70.
+119f47 [,5a,,5a] = 71.
+119f48 [,5a,,5a] = 72.
+119f49 [,5a,,5a] = 73.
+119f4a [,5a,,5a] = 74.
+119f4b [,5a,,5a] = 75.
+119f4c [,5a,,5a] = 76.
+119f4d [,5a,,5a] = 77.
+119f4e [,5a,,5a] = 78.
+119f4f [,5a,,5a] = 79.
+119f50 [,5a,,5a] = 80.
+119f51 [,5a,,5a] = 81.
+119f52 [,5a,,5a] = 82.
+119f53 [,5a,,5a] = 83.
+119f54 [,5a,,5a] = 84.
+119f55 [,5a,,5a] = 85.
+119f56 [,5a,,5a] = 86.
+119f57 [,5a,,5a] = 87.
+119f58 [,5a,,5a] = 88.
+119f59 [,5a,,5a] = 89.
+119f5a [,5a,,5a] = 90.
+119f5b [,5a,,5a] = 91.
+119f5c [,5a,,5a] = 92.
+119f5d [,5a,,5a] = 93.
+119f5e [,5a,,5a] = 94.
+119f5f [,5a,,5a] = 95.
+119f60 [,5a,,5a] = 96.
+119f61 [,5a,,5a] = 97.
+119f62 [,5a,,5a] = 98.
+119f63 [,5a,,5a] = 99.
+11a100 [,32,,41] = Új!
+11a200 [,38,,9c] = Mii-nagymester
+11a300 [,64,,78/1] = Vissza
+11a400 [,32,2,8] = Regisztrált Miimesterek száma: \z{600,5}
+138800 [,50,1,e0] /
+139200 [,64,,78/1] /
+13ec00 [,82,1,b8/1] = Miipláza
+13ed00 [,82,1,b8/1] = Nyilvános pláza
+13ee00 [,82,1,b8/1] = Versenyek
+13ef00 [,82,1,b8/1] = Emlékfénykép
+13f000 [,82,1,b8/1] /
+1b5800 [,64,,9b/1] = Benevezés
+1b5900 [,64,,9b/1] = Bírálás
+1b5a00 [,64,,9b/1] = Eredmények
+1b5b00 [,32,,40] = Új!
+1b6200 [,32,,b4] = 
+1b6201 [,32,,b4] = ◆Világverseny◆
+1b6300 [,32,,b4] = Hátralévő idő: \z{600,0} nap
+1b6301 [,32,,b4] = Hátralévő idő: \z{600,0}\040 óra
+1b6302 [,32,,b4] = \z{8ff,100}Hátralévő idő: \z{600,0}\040 perc
+1b6303 [,32,,b4] = \z{8ff,100}1 perc maradt!
+1b6304 [,32,,b4] = Felkészülés a bírálásra
+1b6305 [,32,,b4] = Eredmények előkészítése
+1b6306 [,32,,b4] = Megszakítva
+1b6307 [,32,,b4] = Hátralévő idő: \z{600,0} nap
+1b6308 [,32,,b4] = Adatok előkészítése...
+1b6400 [,64,,8c/1] = Vissza
+1b6500 [,46,1,9a] = \z{600,0}
+1b6501 [,46,1,9a] = Betöltés...
+1b6600 [,32,,50] = Új!
+1b6700 [,46,,b4] = Benevezve
+1b6800 [,46,,b4] = Bírálva
+1b6900 [,46,1,cc] = Jelenleg nem fut verseny.
+1b6901 [,46,1,cc] = Jelenleg nincs bírálható verseny.
+1b6902 [,46,1,cc] = Jelenleg nincsenek\n
+	+ megtekinthető eredmények.
+1b6a00 [,32,,b4] = Hátralévő idő: \z{600,0} nap
+1b6a01 [,32,,b4] = Hátralévő idő: \z{600,0}\040 óra
+1b6a03 [,32,,b4] = \z{8ff,100}Hamarosan vége!
+1b6c00 [,64,,be/1] = Benevezés
+1b6d00 [,64,,be/1] = Mii készítése
+1b6e00 [,64,,8c/1] = Vissza
+1b7600 [,50,2,1c] = Biztosan be akarod nevezni ezt a Miit?
+1b7700 [,3c,,fa] = Becenév
+1b7800 [,3c,,73] = Nem
+1b7900 [,5a,,76] = Férfi
+1b7901 [,5a,,76] = Nő
+1b7a00 [,3c,,73] = Születésnap
+1b7b00 [,5a,,76] = ?
+1b7c00 [,64,1,e0] = \z{c0a,40000000000}
+1b7c01 [,6e,,b4/1] = Igen
+1b7c02 [,6e,,b4/1] = Nem
+1b7d00 [,50,ff,ff] = Válaszd ki a benevezendő Miit! (Téma: „\z{600,0}”)
+1b8a00 [,50,ff,ff] = Válaszd ki a szerinted témához illő Miiket: „\z{600,0}”
+1b8b00 [,64,1,2c/1] /
+1b8c00 [,46,1,68] /
+1b8d00 [,46,,a0/1] = Kiválasztás
+1b8e00 [,46,,a0/1] = további Mii
+1b8e01 [,46,,a0/1] = további Mii
+1b8f00 [,64,,8c/1] = Csere
+1b9000 [,64,,a0/1] = Szavazás
+1b9e00 [,46,,f0] /
+1b9f00 [,46,,f0] = Saját Mii
+1ba000 [,46,,f0] = Bírált Miik
+1ba100 [,82,1,90/1] = Eredmények
+1ba200 [,64,1,b8/1] = Saját Mii
+1ba201 [,64,1,b8/1] = Bírált Miik
+1ba300 [,6e,1,cc/1] = Személyes rekordot döntöttél!
+1ba400 [,6e,ff,ff] = Ez a Mii tökéletesen megtestesíti a témát! (Téma: „\z{600,0}”)
+1ba401 [,6e,ff,ff] = Jól ítélted meg a témát. (Téma: „\z{600,0}”)
+1ba402 [,6e,ff,ff] = Egész jól ítélted meg a témát... (Téma: „\z{600,0}”)
+1ba403 [,6e,ff,ff] = Hát, mondjuk a témához illik. (Téma: „\z{600,0}”)
+1ba404 [,6e,ff,ff] = Ez a Mii nem igazán illik a témához... (Téma: „\z{600,0}”)
+1ba500 [,3e,,ac] =  Miiszem
+1ba600 [,6e,,c8/1] = Példátlan
+1ba601 [,6e,,c8/1] = Mesteri
+1ba602 [,6e,,c8/1] = Nagyszerű
+1ba603 [,6e,,c8/1] = Jó
+1ba604 [,64,,c8/1] = Átlagon felüli
+1ba605 [,6e,,c8/1] = Átlagos
+1ba606 [,64,,c8/1] = Átlagon aluli
+1ba607 [,6e,,c8/1] = Képzésre szorul
+1ba608 [,6e,,c8/1] = Silány
+1ba609 [,6e,,c8/1] = Rettenetes
+1ba700 [,50,1,b8] = Eredmények
+1ba800 [,50,1,b8/1] = Rangsorolás
+1ba901 [,78,1,f4/1] = 1. szint
+1ba902 [,78,1,f4/1] = 2. szint
+1ba903 [,78,1,f4/1] = 3. szint
+1ba904 [,78,1,f4/1] = 4. szint
+1ba905 [,78,1,f4/1] = 5. szint
+1ba906 [,78,1,f4/1] = 6. szint
+1ba907 [,78,1,f4/1] = 7. szint
+1ba908 [,78,1,f4/1] = 8. szint
+1ba909 [,78,1,f4/1] = 9. szint
+1ba90a [,78,1,f4/1] = Csúcs
+1baa00 [,50,1,b8/1] = Miiszem
+1bab00 [,78,1,f4/1] = Példátlan
+1bab01 [,78,1,f4/1] = Mesteri
+1bab02 [,78,1,f4/1] = Nagyszerű
+1bab03 [,78,1,f4/1] = Jó
+1bab04 [,78,1,f4/1] = Átlagon felüli
+1bab05 [,78,1,f4/1] = Átlagos
+1bab06 [,78,1,f4/1] = Átlagon aluli
+1bab07 [,78,1,f4/1] = Képzésre szorul
+1bab08 [,78,1,f4/1] = Silány
+1bab09 [,78,1,f4/1] = Rettenetes
+1bac00 [,64,,9b/1] = Tovább
+1bad00 [,64,,8c/1] = Kihagyás
+1bae00 [,46,,ac] = Rangsorolás
+1baf01 [,6e,,c8/1] = 1. szint
+1baf02 [,6e,,c8/1] = 2. szint
+1baf03 [,6e,,c8/1] = 3. szint
+1baf04 [,6e,,c8/1] = 4. szint
+1baf05 [,6e,,c8/1] = 5. szint
+1baf06 [,6e,,c8/1] = 6. szint
+1baf07 [,6e,,c8/1] = 7. szint
+1baf08 [,6e,,c8/1] = 8. szint
+1baf09 [,6e,,c8/1] = 9. szint
+1baf0a [,6e,,c8/1] = Csúcs
+1baf0b [,6e,,c8/1] /
+1bb000 [,37,,ac] /
+1bb100 [,64,,c8/1] /
+1bb101 [,64,,c8/1] /
+1bb102 [,64,,c8/1] /
+1bb103 [,64,,c8/1] /
+1bb104 [,64,,c8/1] /
+1bb105 [,64,,c8/1] /
+1bb106 [,64,,c8/1] /
+1bb107 [,64,,c8/1] /
+1bb108 [,64,,c8/1] /
+1bb109 [,64,,c8/1] /
+1bb10a [,64,,c8/1] /
+1bb10b [,64,,c8/1] /
+1bb10c [,64,,c8/1] /
+1bb10d [,64,,c8/1] /
+1bb10e [,64,,c8/1] /
+1bb10f [,64,,c8/1] /
+1bb110 [,64,,c8/1] /
+1bb111 [,64,,c8/1] /
+1bb112 [,64,,c8/1] /
+1bb113 [,64,,c8/1] /
+1bb114 [,64,,c8/1] /
+1bb115 [,64,,c8/1] /
+1bb116 [,64,,c8/1] /
+1bb117 [,64,,c8/1] /
+1bb118 [,64,,c8/1] /
+1bb119 [,64,,c8/1] /
+1bb11a [,64,,c8/1] /
+1bb11b [,64,,c8/1] /
+1bb11c [,64,,c8/1] /
+1bb11d [,64,,c8/1] /
+1bb11e [,64,,c8/1] /
+1bb11f [,64,,c8/1] /
+1bb120 [,64,,c8/1] /
+1bb121 [,64,,c8/1] /
+1bb122 [,64,,c8/1] /
+1bb123 [,64,,c8/1] /
+1bb124 [,64,,c8/1] /
+1bb125 [,64,,c8/1] /
+1bb126 [,64,,c8/1] /
+1bb127 [,64,,c8/1] /
+1bb128 [,64,,c8/1] /
+1bb129 [,64,,c8/1] /
+1bb12a [,64,,c8/1] /
+1bb12b [,64,,c8/1] /
+1bb12c [,64,,c8/1] /
+1bb12d [,64,,c8/1] /
+1bb12e [,64,,c8/1] /
+1bb12f [,64,,c8/1] /
+1bb130 [,64,,c8/1] /
+1bb131 [,64,,c8/1] /
+1bb132 [,64,,c8/1] /
+1bb133 [,64,,c8/1] /
+1bb134 [,64,,c8/1] /
+1bb135 [,64,,c8/1] /
+1bb136 [,64,,c8/1] /
+1bb137 [,64,,c8/1] /
+1bb138 [,64,,c8/1] /
+1bb139 [,64,,c8/1] /
+1bb13a [,64,,c8/1] /
+1bb13b [,64,,c8/1] /
+1bb13c [,64,,c8/1] /
+1bb13d [,64,,c8/1] /
+1bb13e [,64,,c8/1] /
+1bb13f [,64,,c8/1] /
+1bb140 [,64,,c8/1] /
+1bb141 [,64,,c8/1] /
+1bb142 [,64,,c8/1] /
+1bb143 [,64,,c8/1] /
+1bb144 [,64,,c8/1] /
+1bb145 [,64,,c8/1] /
+1bb146 [,64,,c8/1] /
+1bb147 [,64,,c8/1] /
+1bb148 [,64,,c8/1] /
+1bb149 [,64,,c8/1] /
+1bb14a [,64,,c8/1] /
+1bb14b [,64,,c8/1] /
+1bb14c [,64,,c8/1] /
+1bb14d [,64,,c8/1] /
+1bb14e [,64,,c8/1] /
+1bb14f [,64,,c8/1] /
+1bb150 [,64,,c8/1] /
+1bb151 [,64,,c8/1] /
+1bb152 [,64,,c8/1] /
+1bb153 [,64,,c8/1] /
+1bb154 [,64,,c8/1] /
+1bb155 [,64,,c8/1] /
+1bb156 [,64,,c8/1] /
+1bb157 [,64,,c8/1] /
+1bb158 [,64,,c8/1] /
+1bb159 [,64,,c8/1] /
+1bb15a [,64,,c8/1] /
+1bb15b [,64,,c8/1] /
+1bb15c [,64,,c8/1] /
+1bb15d [,64,,c8/1] /
+1bb15e [,64,,c8/1] /
+1bb15f [,64,,c8/1] /
+1bb160 [,64,,c8/1] /
+1bb161 [,64,,c8/1] /
+1bb162 [,64,,c8/1] /
+1bb163 [,64,,c8/1] /
+1bb200 [,46,,5a] = \z{600,0}
+1bb300 [,6e,ff,ff] = Hihetetlen! Példátlan a Miiválasztó képességed! A tehetséged
+	+  világhírű!
+1bb301 [,6e,ff,ff] = Elképesztő! Profi vagy! Látható, hogy már tapasztalt vagy és
+	+  jó az ösztönöd.
+1bb302 [,6e,ff,ff] = Tudod, milyen egy jó Mii! Lehet, hogy nem csak a külsőt,
+	+  hanem a belsőt is megítéled.
+1bb303 [,6e,ff,ff] = Jól meg tudod ítélni, hogy melyik Miik illenek a témához. Mindenki
+	+  Téged figyel, hogy megállapítsák a legújabb Miidivatot!
+1bb304 [,6e,ff,ff] = Egész jól meg tudod ítélni a helyes Miiket. Mondhatni vakmerő, de
+	+  racionális vagy.
+1bb305 [,6e,ff,ff] = Egész megbízható vagy a választásban. Egyértelműen képes vagy
+	+  az objektív döntéshozatalra.
+1bb306 [,6e,ff,ff] = Egész jók a választásaid. Ha szeretnél javítani a képességeiden,
+	+  próbálj pillantást vetni több Miire is és válassz ki egy sokszínűbb csoportot!
+1bb307 [,6e,ff,ff] = Az ízlésed nem igazán egyezik a verseny témájával, de van benned
+	+  potencia. Jól gondold meg a választásaidat és seperc alatt jobb leszel!
+1bb308 [,6e,ff,ff] = A választásod nem igazán egyezik a verseny témájával. Ne feledd használni a
+	+  Csere-gombot és minél több Miire pillantást vetni, mielőtt döntést hoznál!
+1bb309 [,6e,ff,ff] = Nos, hát ugyan az ízlésed nem igazán egyezik bárki máséval, de
+	+  mondhatni, egyedi a nézőpontod.
+1bb401 [,46,,82] = 1. szint
+1bb402 [,46,,82] = 2. szint
+1bb403 [,46,,82] = 3. szint
+1bb404 [,46,,82] = 4. szint
+1bb405 [,46,,82] = 5. szint
+1bb406 [,46,,82] = 6. szint
+1bb407 [,46,,82] = 7. szint
+1bb408 [,46,,82] = 8. szint
+1bb409 [,46,,82] = 9. szint
+1bb40a [,46,,82] = Csúcs
+1bbc00 [,6e,,b4] = \z{600,4}
+1bbc01 [,46,,b4] = Különdíj
+1bbd00 [,6e,,b4] /
+1bbe00 [,6e,,b4] /
+1bbf00 [,3c,,80] = Miimester
+1bc000 [,2d,,80] = Mii-nagymester
+1bc100 [,41,,48] = ★
+1bee00 [,50,1,f4/1] = \x{e041}: Póz megváltoztatása  \x{e042}: Elengedés
+1bef00 [,50,,c8/1] = Fénykép készítése
+1bf000 [,50,,c8/1] = Tovább
+232800 [,64,,8c/1] = Vissza
+232801 [,55,,8c/1] = Wii menü
+232802 [,64,,8c/1] = Felosz-\n
+	+ latás
+232803 [,64,,8c/1] = Kilépés
+232900 [,78,,2c/1] = \z{600,0}
+232901 [,78,,2c/1] = \z{600,0}
+232a00 [,64,1,2c] = (Ismeretlen)
+232b00 [,64,1,2c] = ?
+238c01 [,64,,78] = Jan.
+238c02 [,64,,78] = Febr.
+238c03 [,64,,78] = Márc.
+238c04 [,64,,78] = Ápr.
+238c05 [,64,,78] = Máj.
+238c06 [,64,,78] = Jún.
+238c07 [,64,,78] = Júl.
+238c08 [,64,,78] = Aug.
+238c09 [,64,,78] = Szept.
+238c0a [,64,,78] = Okt.
+238c0b [,64,,78] = Nov.
+238c0c [,64,,78] = Dec.
+251c00 [,5a,,9a/1] = Éneklés
+251d00 [,5a,,9a/1] = Sport
+251e00 [,5a,,9a/1] = Színészkedés
+251f00 [,5a,,9a/1] = Humor
+252000 [,5a,,9a/1] = Zene
+252100 [,5a,,9a/1] = Küzdősportok
+252200 [,5a,,9a/1] = Tánc
+252300 [,5a,,9a/1] = Felfedezés
+252400 [,5a,,9a/1] = Rendezés
+252500 [,5a,,9a/1] = Főzés
+252600 [,5a,,9a/1] = Beszélgetés
+252700 [,5a,,9a/1] = Nyilvános beszéd
+252800 [,5a,,9a/1] = Tervezés
+252900 [,5a,,9a/1] = Festőművészet
+252a00 [,64,,9a/1] = Tanulás
+252b00 [,5a,,9a/1] = Írás
+252c00 [,5a,,9a/1] = Divat
+252d00 [,5a,,9a/1] = Konyhaművészet
+252e00 [,5a,,9a/1] = Titok
+258000 [,64,3,e7/1] = Miiversenycsatorna
+258001 [,64,3,e7/1] = ********************************\n
+	+   　　　      Emlékkép\n
+	+ ********************************\n
+	+ \n
+	+ A benevezés után ezt az\n
+	+ emlékképet készítetted.
+25b200 [,64,,78] = B: Vissza
+25b300 [,64,2,80] = Csere
+25e400 [,64,2,80] = Képadatok
+25e500 [,64,2,80] = Üzenetadatok
+25e600 [,64,2,80] = Címzett: Wii üzenőfal \z{600,0}
+25e601 [,64,2,80] = Csatornaikon idexképe \z{600,0}
+25e602 [,64,2,80] = Alkalmazás indexképe \z{600,0}
+25e603 [,64,2,80] = Alkalmazás emlékképe \z{600,0}
+25e700 [,3c,1,9a] = Wiiüzenőfal-versenytéma
+25e800 [,3c,1,9a] = Alkalmazás-versenytéma
+25e900 [,3c,1,9a] = Alapértelmezet Miinév
+25ea00 [,64,1,36] = japán
+25ea01 [,64,1,36] = angol
+25ea02 [,64,1,36] = német
+25ea03 [,64,1,36] = francia
+25ea04 [,64,1,36] = spanyol
+25ea05 [,64,1,36] = olasz
+25ea06 [,50,1,36] = holland
+25ea07 [,50,1,36] = kínai (egysz.)
+25ea08 [,50,1,36] = kínai (hagy.)
+25ea09 [,50,1,36] = koreai
+25eb00 [,64,2,80] = Versenyazonosító
+25ec00 [,64,2,80] = Kelt
+25ed00 [,64,2,80] = Alkalmazástéma\n
+	+ (görgethető tartalom)
+261600 [,64,2,80] = Összes Mii
+261700 [,64,2,80] = Törlésre jelölt Miik
+261800 [,64,2,80] = Rossz Miik automatikus ellenőrzése
+261900 [,64,2,80] = Benevezések száma: \z{600,0}
+261a00 [,64,2,80] = Állapot: \z{600,0}
+261b00 [,64,2,80] = Becenév: \z{600,1}
+261c00 [,64,2,80] = Miimester beceneve:\n
+	+ \z{600,1}
+264800 [,64,2,80] = Bírálási eredmények
+264900 [,64,2,80] = Különdíjas Miik
+264a00 [,64,2,80] = Helyezés: \z{600,4}
+264b00 [,64,2,80] = Állapot: \z{600,0}
+264c00 [,64,2,80] = Becenév: \z{600,1}
+264d00 [,64,2,80] = Miimester beceneve:\n
+	+ \z{600,1}
+267a00 [,64,2,80] = Versenyazonosító
+267b00 [,64,2,80] = Jelszó
+267c00 [,64,2,80] = Megerősítés
+267d00 [,64,1,b8] = \z{c0a,40200000200}
+267d01	= A versenyazonosító vagy\n
+	+ jelszó helytelen.
+267e00 [,64,2,80] = Kép-/témaellenőrzés
+267f00 [,64,2,80] = Bírálási előkészületi\n
+	+ időszak ellenőrzése
+268000 [,64,2,80] = Eredményközzétételi elő-\n
+	+ készületi időszak ellenőrzése
+26ac00 [,64,3,e7] = \z{600,0}です。\z{600,0}です。
+26ac01 [,64,3,e7] = \z{600,0}です。\z{600,0}です。
+26ad02 [,64,3,e7] = \z{600,0}です。\z{600,0}です。
+26b600 [,64,1,e0] = \z{c0a,20c000000}
+26b601	= 自動送りテスト
+26b700 [,64,1,e0] = \z{c0a,10200000000}
+26b701	= マニュアル送りテスト
+26b800 [,64,1,e0] = \z{c0a,20200000000}
+26b801	= Ａボタン送りテスト
+26b900 [,64,1,e0] = \z{c0a,30200000000}
+26b901	= １択送りテスト\n
+	+ ちゃんと表示できてる？
+26b902 [,6e,1,b8] = できてるよ！
+26ba00 [,64,1,e0/1] = \z{c0a,40200000000}
+26ba01 [,64,1,e0] = 夜食食\z{8ff,100}べた？
+26ba02 [,6e,,b4/1] = はい
+26ba03 [,6e,,b4/1] = いいえ
+26bb00 [,64,1,e0] = \z{c0a,20200000000}
+26bb01 [,64,1,e0] = \z{600,0}
+26bc00 [,64,1,e0] = \z{c0a,40000000000}
+26bc01 [,64,,b4/1] = はい
+26bc02 [,64,,b4/1] = いいえ
+26c000 [,64,1,e0] = ＋拡大－縮小職人情報西田中嶋\n
+	+ 加藤山下阪口濱口設定検索条件\n
+	+ 性別特技番号男女歌演技\n
+	+ ０１２３４５６７８９
+26c001 [,64,1,e0/1] = abcdefg
+26c100 [,64,1,e0] = \z{c0a,20200000000}
+26c101	= \z{600,0}
+26c200 [,64,1,e0/1] = \z{c0a,40200000000}
+26c201 [,64,1,e0] = \z{600,0}
+26c202 [,6e,,b4/1] = はい
+26c203 [,6e,,b4/1] = いいえ
+270600	= デバッグメニュー
+270700 [,50,,64/1] = もどる
 
