@@ -17,21 +17,17 @@ _This repo only contains the modified language files and their corresponsing emp
 1. `cd \00000001\00000002\content\0000009a.d\message\eng`
 2. `wbmgt encode ipl_common_noe.txt`
 3. `cd \00000001\00000002\content`
-4. `wszst create 0000009a.d`
-5. 0000009a.u8 -> 0000009a.app
+4. `wszst create 0000009a.d --DEST 0000009a.app --overwrite`
 
 ### Wii Room
 1. `cd \00010001\4843494a\content\00000026.d\msg`
 2. `wbmgt encode message.txt`
 3. `lzss -evf message.bmg message.lex`
 4. `cd \00010001\4843494a\content`
-5. `wszst create 00000026.d`
-6. 00000026.u8 -> 00000026.app
+5. `wszst create 00000026.d --DEST 00000026.app --overwrite`
 
 ### Miiversenycsatorna – _Mii Contest Channel / Check Mii Out Channel_
 1. `cd \00010001\48415050\content\0000000d.d\content4\Message\Bmg`
-2. `wbmgt encode Basic_EN.txt`
-3. Basic_EN.bmg -> Basic_EN.szs
+2. `wbmgt encode Basic_EN.txt --DEST Basic_EN.szs --overwrite`
 4. `cd \00010001\48415050\content`
-5. `wszst create 0000000d.d`
-6. 0000000d.u8 -> 0000000d.app
+5. `wszst create 0000000d.d --DEST 0000000d.app --overwrite`
